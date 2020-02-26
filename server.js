@@ -8,7 +8,11 @@ const session = require('express-session');
 const app = express();
 
 app.use(bodyParser.json());
-app.use(session({ secret: 'secret' }))
+app.use(session({
+     secret: 'secret', 
+     resave: false,
+     saveUninitialized: true
+}));
 
 
 app.listen(8080, (err) => {
@@ -163,8 +167,10 @@ app.post('/login', function (req, res) {
     var password = req.body.user.password;
     mysqlConnection.query('SELECT * FROM account WHERE id = ? AND password = ?', [id, password], (err, rows, fields) => {
         if (!err) {
-            if (rows.length > 0)
+            if (rows.length > 0){
+                req.session.bilkentId = id;
                 res.send(rows);
+            }    
             else
                 res.send(404);
         }
@@ -174,6 +180,19 @@ app.post('/login', function (req, res) {
     });
 }
 );
+
+//display session
+app.get('/bak', function(req, res) {
+    if(req.session.id) return res.send("session info: "+req.session.bilkentId);
+    res.send("no session");
+ });
+
+
+// Logout
+app.post('/logout', function(req, res) {
+   req.session.destroy();
+   res.end();
+});
 
 
 
