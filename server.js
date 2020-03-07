@@ -68,7 +68,49 @@ app.post('/logout', function(req, res) {
    res.end();
 });
 
+//Get unregistered accounts
+app.get('/register',(req,res) => {
+    mysqlConnection.query('SELECT * FROM register', (err, rows, fields) => {
+        if (!err)
+            res.send(rows);
+        else
+            console.log(err);
+    });
+    
+});
 
+//Get an unregistered account
+app.get('/register/:id', (req, res) => {
+    mysqlConnection.query('SELECT * FROM register WHERE id = ?', [req.params.id], (err, rows, fields) => {
+        if (!err)
+            res.send(rows);
+        else
+            console.log(err);
+    });
+});
+
+
+//Insert an unregistered account (when user clicks register button) 
+app.post('/register', (req, res) => {
+    var sql = "SET @id = ?; SET @password = ? ;SET @status = ?;CALL insertRegisterProcedure(@id,@password,@status);";
+    mysqlConnection.query(sql, [req.body.id, req.body.password, req.body.status], (err, rows, fields) => {
+        if (!err)
+            res.send('Inserted unregistered account id: ' + req.body.id);
+        else
+            console.log(err);
+    });
+});
+
+//Insert an account (when admin approves an unregistered account)
+app.post('/account', (req, res) => {
+    var sql = "SET @id = ?; SET @password = ? ;SET @status = ?;CALL insertAccountProcedure(@id,@password,@status);";
+    mysqlConnection.query(sql, [req.body.id, req.body.password, req.body.status], (err, rows, fields) => {
+        if (!err)
+            res.send('Inserted account id: ' + req.body.id);
+        else
+            console.log(err);
+    });
+});
 
 //Announcement********************************************************************
 
