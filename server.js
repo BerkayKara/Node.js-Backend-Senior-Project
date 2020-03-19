@@ -147,15 +147,15 @@ app.delete('/announcements/:id', (req, res) => {
 });
 
 //Insert an announcement
-app.post('/announcement', (req, res) => {
+app.post('/announcements', (req, res) => {
     let announcement = req.body;
     console.log(announcement);
-    var sql = "SET @text = ?; SET @date = ?;CALL insertAnnouncementProcedure(@text,@date);";
-    mysqlConnection.query(sql, [announcement.text, announcement.date], (err, rows, fields) => {
+    var sql = "SET @text = ?; CALL insertAnnouncementsProcedure(@text);";
+    mysqlConnection.query(sql, [announcement.text], (err, rows, fields) => {
         if (!err)
             res.send('Announcement Inserted');
         else
-            console.log("err");
+            console.log(err);
     });
 });
 
@@ -164,8 +164,8 @@ app.post('/announcement', (req, res) => {
 //Update an announcement
 app.put('/announcements', (req, res) => {
     let announcement = req.body;
-    var sql = "SET @id = ?; SET @text = ?; SET @date = ?;CALL updateAnnouncementProcedure(@id, @text,@date);";
-    mysqlConnection.query(sql, [announcement.id, announcement.text, announcement.date], (err, rows, fields) => {
+    var sql = "SET @id = ?; SET @text = ?; CALL updateAnnouncementProcedure(@id, @text,);";
+    mysqlConnection.query(sql, [announcement.id, announcement.text], (err, rows, fields) => {
         if (!err)
             res.send('Updated successfully');
         else
@@ -483,4 +483,6 @@ app.put('/football', (req, res) => {
     });
 });
 
+
+//Tournaments***********************************************
 
