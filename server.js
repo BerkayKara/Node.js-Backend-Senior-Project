@@ -6,8 +6,40 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const app = express();
+const path = require('path')
+
+const multer = require('multer');
+
+const storage  = multer.diskStorage({//public te store et bütün fotoları
+    destination: './public/uploads/',
+    filename: function(req, file, cb){
+        cb(null,file.fieldname + '-' + Date.now() + 
+        path.extname(file.originalname));
+    }
+});
+
+const upload = multer({// multer storage ı yukardaki olsun
+    storage: storage
+}).single('myImage');
+
+app.post('/upload', (req,res) => {
+    upload(req,res,(err) => {
+        if (err){
+            res.render('index', {//tekrar resim yükleme sayfasına yönlendir
+                msg: err
+            });
+        } else {
+            console.log(req.file);
+            res.send('test');
+        }
+
+    })
+
+});
 
 app.use(bodyParser.json());
+
+
 app.use(session({
      secret: 'secret', 
      resave: false,
@@ -177,12 +209,7 @@ app.put('/announcements', (req, res) => {
 
 //Get all statistics
 app.get('/statistics', (req, res) => {
-    mysqlConnection.query('SELECT * FROM statistics', (err, rows, fields) => {
-        if (!err)
-            res.send(rows);
-        else
-            console.log(err);
-    });
+    statistics.getAll();
 });
 
 
@@ -486,3 +513,6 @@ app.put('/football', (req, res) => {
 
 //Tournaments***********************************************
 
+// account değiştirilecek
+// announcement takvim ayarlanıcak
+// turnuva sadece participant eklendi takımlı turnuvalar ne olucak
