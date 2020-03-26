@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 26 Şub 2020, 20:09:09
+-- Üretim Zamanı: 26 Mar 2020, 20:30:27
 -- Sunucu sürümü: 10.4.10-MariaDB
 -- PHP Sürümü: 7.3.12
 
@@ -26,10 +26,16 @@ DELIMITER $$
 --
 -- Yordamlar
 --
-DROP PROCEDURE IF EXISTS `insertAnnouncementProcedure`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insertAnnouncementProcedure` (IN `_text` VARCHAR(150), IN `_date` DATE)  BEGIN
-	INSERT INTO announcements(text,date)
-	VALUES (_text,_date);
+DROP PROCEDURE IF EXISTS `insertAccountProcedure`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertAccountProcedure` (IN `_id` INT, IN `_password` VARCHAR(45), IN `_status` VARCHAR(45))  BEGIN
+	INSERT INTO account
+	VALUES (_id,_password,_status);
+END$$
+
+DROP PROCEDURE IF EXISTS `insertAnnouncementsProcedure`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertAnnouncementsProcedure` (IN `_text` VARCHAR(150))  BEGIN
+	INSERT INTO announcements(text)
+	VALUES (_text);
 END$$
 
 DROP PROCEDURE IF EXISTS `insertFootballProcedure`$$
@@ -42,6 +48,12 @@ DROP PROCEDURE IF EXISTS `insertPoolProcedure`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertPoolProcedure` (IN `_id` INT, IN `_lane` VARCHAR(45), IN `_quota` INT)  BEGIN
 	INSERT INTO pool
 	VALUES (_id,_lane,_quota);
+END$$
+
+DROP PROCEDURE IF EXISTS `insertRegisterProcedure`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertRegisterProcedure` (IN `_id` INT, IN `_password` VARCHAR(45), IN `_status` VARCHAR(45))  BEGIN
+	INSERT INTO register
+	VALUES (_id,_password,_status);
 END$$
 
 DROP PROCEDURE IF EXISTS `insertSquashProcedure`$$
@@ -64,11 +76,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insertTennisProcedure` (IN `_id` IN
 END$$
 
 DROP PROCEDURE IF EXISTS `updateAnnouncementProcedure`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `updateAnnouncementProcedure` (IN `_id` INT, IN `_text` VARCHAR(150), IN `_date` DATE)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateAnnouncementProcedure` (IN `_id` INT, IN `_text` VARCHAR(150))  BEGIN
 	UPDATE announcements
 	SET
-	text = _text,
-	date = _date
+	text = _text
     WHERE id = _id;
 END$$
 
@@ -139,7 +150,8 @@ CREATE TABLE IF NOT EXISTS `account` (
 
 INSERT INTO `account` (`id`, `password`, `status`) VALUES
 (21502129, '123', 'admin'),
-(21401897, '123', 'student');
+(21401897, '123', 'student'),
+(111, ' 123123', 'student');
 
 -- --------------------------------------------------------
 
@@ -151,25 +163,26 @@ DROP TABLE IF EXISTS `announcements`;
 CREATE TABLE IF NOT EXISTS `announcements` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `text` varchar(150) NOT NULL,
-  `date` date NOT NULL,
+  `date` timestamp NULL DEFAULT current_timestamp(),
   KEY `id` (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `announcements`
 --
 
 INSERT INTO `announcements` (`id`, `text`, `date`) VALUES
-(1, 'yagmur', '2012-12-12'),
-(2, 'arca', '2012-12-12'),
-(3, 'yagmur', '2012-12-12'),
-(5, 'berkay', '2012-12-11'),
-(6, 'yagmur', '2012-12-11'),
-(7, 'yagmur', '2012-12-11'),
-(8, 'berkay', '2012-12-11'),
-(9, 'berkay', '2012-12-11'),
-(10, 'berkay kara deneme', '2012-12-20'),
-(11, 'TEAM 8 MEETING', '2012-12-20');
+(1, 'yagmur', '2012-12-11 21:00:00'),
+(2, 'arca', '2012-12-11 21:00:00'),
+(3, 'yagmur', '2012-12-11 21:00:00'),
+(5, 'berkay', '2012-12-10 21:00:00'),
+(6, 'yagmur', '2012-12-10 21:00:00'),
+(7, 'yagmur', '2012-12-10 21:00:00'),
+(8, 'berkay', '2012-12-10 21:00:00'),
+(9, 'berkay', '2012-12-10 21:00:00'),
+(10, 'berkay kara deneme', '2012-12-19 21:00:00'),
+(11, 'TEAM 8 MEETING', '2012-12-19 21:00:00'),
+(12, 'This is the test of auto date', '2020-03-09 19:25:30');
 
 -- --------------------------------------------------------
 
@@ -223,6 +236,92 @@ INSERT INTO `pool` (`id`, `lane`, `quota`) VALUES
 (5, 'Lane 5', 4),
 (6, 'Lane 6', 4),
 (17, 'berkay test', 20);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `p_badminton`
+--
+
+DROP TABLE IF EXISTS `p_badminton`;
+CREATE TABLE IF NOT EXISTS `p_badminton` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `p_squash`
+--
+
+DROP TABLE IF EXISTS `p_squash`;
+CREATE TABLE IF NOT EXISTS `p_squash` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `p_tabletennis`
+--
+
+DROP TABLE IF EXISTS `p_tabletennis`;
+CREATE TABLE IF NOT EXISTS `p_tabletennis` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentID` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `p_tennis`
+--
+
+DROP TABLE IF EXISTS `p_tennis`;
+CREATE TABLE IF NOT EXISTS `p_tennis` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `register`
+--
+
+DROP TABLE IF EXISTS `register`;
+CREATE TABLE IF NOT EXISTS `register` (
+  `id` int(11) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `status` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `register`
+--
+
+INSERT INTO `register` (`id`, `password`, `status`) VALUES
+(21602121, ' 123123', 'student'),
+(1, ' 123123', 'student'),
+(21502129, ' 123123', 'student'),
+(21601642, ' 123123', 'student'),
+(111, ' 123123', 'student'),
+(321, '123', 'student');
 
 -- --------------------------------------------------------
 

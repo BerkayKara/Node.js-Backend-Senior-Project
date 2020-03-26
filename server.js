@@ -6,7 +6,8 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const app = express();
-const path = require('path')
+const path = require('path') ;
+const ejs = require('ejs');
 
 const multer = require('multer');
 
@@ -18,9 +19,42 @@ const storage  = multer.diskStorage({//public te store et bütün fotoları
     }
 });
 
+
+
+
+//ejs
+app.set('view engine', 'ejs');
+
+app.use(express.static('./public'));
+
+
 const upload = multer({// multer storage ı yukardaki olsun
-    storage: storage
+    storage: storage,
+    limits:{fileSize: 1000000},
+    fileFilter: function(req,file, cb){//cb = callbac k
+        checkFileType(file,cb)
+    }
 }).single('myImage');
+
+//Check File Type
+function checkFileType(file,cb){
+    // Allowed extentions
+    const filetypes = /jpeg|jpg|png|gif|jfif/;
+    //check extention
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    //check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname){
+        return cb(null,true);
+    } else {
+        cb('Error: Images Only!');
+    }
+}
+
+
+app.get('/img', (req,res) => res.render('index'));
+
 
 app.post('/upload', (req,res) => {
     upload(req,res,(err) => {
@@ -29,8 +63,20 @@ app.post('/upload', (req,res) => {
                 msg: err
             });
         } else {
+            if (req.file == undefined){
+                res.render('index', {
+                    msg: 'Error: No File Selected'
+                });
+            } else {
+                console.log(req.file);
+                res.render('index', {
+                    msg: 'File Uploaded!',
+                    file: `ùploads/${req.file.filename}`
+                });
+
+            }
             console.log(req.file);
-            res.send('test');
+            
         }
 
     })
