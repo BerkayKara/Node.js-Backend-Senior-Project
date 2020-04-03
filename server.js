@@ -170,10 +170,10 @@ app.get('/register/:id', (req, res) => {
 
 //Insert an unregistered account (when user clicks register button) 
 app.post('/register', (req, res) => {
-    var sql = "SET @id = ?; SET @password = ? ;SET @status = ?;CALL insertRegisterProcedure(@id,@password,@status);";
-    mysqlConnection.query(sql, [req.body.id, req.body.password, req.body.status], (err, rows, fields) => {
+    var sql = "SET @id = ?; SET @name = ?; SET @surname = ?; SET @bilkentId = ?; SET @email = ?; SET @password = ?; SET @status = ?; CALL insertRegisterProcedure(@id, @name, @surname, @bilkentId, @email, @password, @status);";
+    mysqlConnection.query(sql, [req.body.id, req.body.name, req.body.surname, req.body.bilkentId, req.body.email, req.body.password, req.body.status], (err, rows, fields) => {
         if (!err)
-            res.send('Inserted unregistered account id: ' + req.body.id);
+            res.send('Inserted unregistered account bilkent id: ' + req.body.bilkentId);
         else
             console.log(err);
     });
@@ -181,12 +181,13 @@ app.post('/register', (req, res) => {
 
 //Insert an account (when admin approves an unregistered account)
 app.post('/account', (req, res) => {
-    var sql = "SET @id = ?; SET @password = ? ;SET @status = ?;CALL insertAccountProcedure(@id,@password,@status);";
-    mysqlConnection.query(sql, [req.body.id, req.body.password, req.body.status], (err, rows, fields) => {
+    var sql = "SET @id = ?; SET @name = ?; SET @surname = ?; SET @bilkentId = ?; SET @email = ?; SET @password = ?; SET @status = ?; CALL insertAccountProcedure(@id, @name, @surname, @bilkentId, @email, @password, @status);";
+    mysqlConnection.query(sql, [req.body.id, req.body.name, req.body.surname, req.body.bilkentId, req.body.email, req.body.password, req.body.status], (err, rows, fields) => {
         if (!err)
-            res.send('Inserted account id: ' + req.body.id);
+            res.send('Inserted account id: ' + req.body.bilkentId);
         else
             console.log(err);
+        
     });
 });
 
@@ -242,7 +243,7 @@ app.post('/announcements', (req, res) => {
 //Update an announcement
 app.put('/announcements', (req, res) => {
     let announcement = req.body;
-    var sql = "SET @id = ?; SET @text = ?; CALL updateAnnouncementProcedure(@id, @text,);";
+    var sql = "SET @id = ?; SET @text = ?; CALL updateAnnouncementProcedure(@id, @text);";
     mysqlConnection.query(sql, [announcement.id, announcement.text], (err, rows, fields) => {
         if (!err)
             res.send('Updated successfully');
@@ -558,6 +559,82 @@ app.put('/football', (req, res) => {
 
 
 //Tournaments***********************************************
+
+
+
+//table tennis participants
+
+
+
+//Get all table tennis participant
+app.get('/tabletennis', (req, res) => {
+    mysqlConnection.query('SELECT * FROM tennis', (err, rows, fields) => {
+        if (!err)
+            res.send(rows);
+        else
+            console.log(err);
+    });
+});
+
+//Get a table tennis participant
+app.get('/tabletennis/:id', (req, res) => {
+    mysqlConnection.query('SELECT * FROM tennis WHERE id = ?', [req.params.id], (err, rows, fields) => {
+        if (!err)
+            res.send(rows);
+        else
+            console.log(err);
+    });
+});
+
+
+//Delete a  table tennis participant
+app.delete('/tabletennis/:id', (req, res) => {
+    mysqlConnection.query('DELETE FROM tennis WHERE id = ?', [req.params.id], (err, rows, fields) => {
+        if (!err)
+            res.send('Deleted successfully');
+        else
+            console.log(err);
+    });
+});
+
+
+//Insert a table tennis participant
+app.post('/tabletennis', (req, res) => {
+    let tabletennis = req.body;
+    var sql = "SET @id = ?; SET @court = ? ;SET @campus = ?;CALL insertTennisProcedure(@id, @court,@campus);";
+    mysqlConnection.query(sql, [tabletennis.id, tabletennis.court, tabletennis.campus], (err, rows, fields) => {
+        if (!err)
+            res.send('Inserted table tennis participant id: ' + tabletennis.id);
+        else
+            console.log(err);
+    });
+});
+
+
+//Update a table tennis participant
+app.put('/tabletennis', (req, res) => {
+    let tabletennis = req.body;
+    var sql = "SET @id = ?; SET @court = ?; SET @campus = ?;CALL updateTennisProcedure(@id, @court,@campus);";
+    mysqlConnection.query(sql, [tennis.id, tennis.court, tennis.campus], (err, rows, fields) => {
+        if (!err)
+            res.send('Updated successfully');
+        else
+            console.log(err);
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // account değiştirilecek
 // announcement takvim ayarlanıcak
