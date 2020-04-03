@@ -170,23 +170,27 @@ app.get('/register/:id', (req, res) => {
 
 //Insert an unregistered account (when user clicks register button) 
 app.post('/register', (req, res) => {
-    var sql = "SET @id = ?; SET @name = ?; SET @surname = ?; SET @bilkentId = ?; SET @email = ?; SET @password = ?; SET @status = ?; CALL insertRegisterProcedure(@id, @name, @surname, @bilkentId, @email, @password, @status);";
-    mysqlConnection.query(sql, [req.body.id, req.body.name, req.body.surname, req.body.bilkentId, req.body.email, req.body.password, req.body.status], (err, rows, fields) => {
+    var sql = "SET @name = ?; SET @surname = ?; SET @bilkentId = ?; SET @email = ?; SET @password = ?; SET @status = ?; CALL insertRegisterProcedure(@name, @surname, @bilkentId, @email, @password, @status);";
+    mysqlConnection.query(sql, [req.body.name, req.body.surname, req.body.bilkentId, req.body.email, req.body.password, req.body.status], (err, rows, fields) => {
         if (!err)
             res.send('Inserted unregistered account bilkent id: ' + req.body.bilkentId);
         else
-            console.log(err);
+            res.send(err.sqlMessage);
+        console.log(err);
+        
     });
 });
 
 //Insert an account (when admin approves an unregistered account)
 app.post('/account', (req, res) => {
-    var sql = "SET @id = ?; SET @name = ?; SET @surname = ?; SET @bilkentId = ?; SET @email = ?; SET @password = ?; SET @status = ?; CALL insertAccountProcedure(@id, @name, @surname, @bilkentId, @email, @password, @status);";
-    mysqlConnection.query(sql, [req.body.id, req.body.name, req.body.surname, req.body.bilkentId, req.body.email, req.body.password, req.body.status], (err, rows, fields) => {
+    var sql = "SET @name = ?; SET @surname = ?; SET @bilkentId = ?; SET @email = ?; SET @password = ?; SET @status = ?; CALL insertAccountProcedure(@name, @surname, @bilkentId, @email, @password, @status);";
+    mysqlConnection.query(sql, [req.body.name, req.body.surname, req.body.bilkentId, req.body.email, req.body.password, req.body.status], (err, rows, fields) => {
         if (!err)
             res.send('Inserted account id: ' + req.body.bilkentId);
         else
-            console.log(err);
+            res.send(err.sqlMessage);
+        
+        console.log(err);
         
     });
 });
@@ -636,6 +640,5 @@ app.put('/tabletennis', (req, res) => {
 
 
 
-// account değiştirilecek
 // announcement takvim ayarlanıcak
 // turnuva sadece participant eklendi takımlı turnuvalar ne olucak
