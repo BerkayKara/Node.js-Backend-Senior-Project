@@ -18,13 +18,9 @@ const multer = require('multer');
 const storage  = multer.diskStorage({//public te store et bütün fotoları
     destination: './public/uploads/',
     filename: function(req, file, cb){
-        cb(null,file.fieldname + '-' + Date.now() + 
-        path.extname(file.originalname));
+        cb(null,file.originalname + '-' + path.extname(file.originalname));
     }
 });
-
-
-
 
 //ejs
 app.set('view engine', 'ejs');
@@ -35,10 +31,10 @@ app.use(express.static('./public'));
 const upload = multer({// multer storage ı yukardaki olsun
     storage: storage,
     limits:{fileSize: 1000000},
-    fileFilter: function(req,file, cb){//cb = callback
+    fileFilter: function(req,file, cb){//cb = callbac k
         checkFileType(file,cb)
     }
-}).single('myImage');
+}).single('image');
 
 //Check File Type
 function checkFileType(file,cb){
@@ -60,30 +56,36 @@ function checkFileType(file,cb){
 app.get('/img', (req,res) => res.render('index'));
 
 
-app.post('/upload', (req,res) => {
-    upload(req,res,(err) => {
-        if (err){
-            res.render('index', {//tekrar resim yükleme sayfasına yönlendir
-                msg: err
-            });
-        } else {
-            if (req.file == undefined){
-                res.render('index', {
-                    msg: 'Error: No File Selected'
-                });
-            } else {
-                console.log(req.file);
-                res.render('index', {
-                    msg: 'File Uploaded!',
-                    file: `ùploads/${req.file.filename}`
-                });
+app.post('/upload', upload, (req,res,err) => {
+    console.log(req.file);
+    if(err){
+        res.status(404);
+    }else{
+        res.status(200);
+    }
+    // upload(req,res,(err) => {
+    //     if (err){
+    //         res.render('index', {//tekrar resim yükleme sayfasına yönlendir
+    //             msg: err
+    //         });
+    //     } else {
+    //         if (req.file == undefined){
+    //             res.render('index', {
+    //                 msg: 'Error: No File Selected'
+    //             });
+    //         } else {
+    //             console.log(req.file);
+    //             res.render('index', {
+    //                 msg: 'File Uploaded!',
+    //                 file: `ùploads/${req.file.filename}`
+    //             });
 
-            }
-            console.log(req.file);
+    //         }
+    //         console.log(req.file);
             
-        }
+    //     }
 
-    })
+    // })
 
 });
 
@@ -97,7 +99,7 @@ app.use(session({
 }));
 
 
-app.listen(8080, (err) => {
+app.listen(8081, (err) => {
     console.log("Server is running at port 8080");
 });
 
