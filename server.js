@@ -8,6 +8,10 @@ const session = require('express-session');
 const app = express();
 const path = require('path') ;
 const ejs = require('ejs');
+var dateFormat = require('dateformat');
+var moment = require('moment');
+
+
 
 const multer = require('multer');
 
@@ -31,7 +35,7 @@ app.use(express.static('./public'));
 const upload = multer({// multer storage ı yukardaki olsun
     storage: storage,
     limits:{fileSize: 1000000},
-    fileFilter: function(req,file, cb){//cb = callbac k
+    fileFilter: function(req,file, cb){//cb = callback
         checkFileType(file,cb)
     }
 }).single('myImage');
@@ -103,6 +107,8 @@ var mysqlConnection = mysql.createConnection({
     database: 'bilsportdb',
     host: 'localhost',
     multipleStatements: true,
+    dateStrings: true
+
 });
 
 mysqlConnection.connect((err) => {
@@ -114,13 +120,13 @@ mysqlConnection.connect((err) => {
 
 // Login
 app.post('/login', function (req, res) {
-    console.log(req.body);
-    var id = req.body.user.id;
-    var password = req.body.user.password;
-    mysqlConnection.query('SELECT * FROM account WHERE id = ? AND password = ?', [id, password], (err, rows, fields) => {
+    console.log(req.body.user.bilkentId);
+    let bilkentId = req.body.user.bilkentId;
+    let password = req.body.user.password;
+    mysqlConnection.query('SELECT * FROM account WHERE bilkentId = ? AND password = ?', [bilkentId, password], (err, rows, fields) => {
         if (!err) {
             if (rows.length > 0){
-                req.session.bilkentId = id;
+                req.session.bilkentId = bilkentId;
                 res.send(rows);
             }    
             else
@@ -191,9 +197,150 @@ app.post('/account', (req, res) => {
             res.send(err.sqlMessage);
         
         console.log(err);
+
+
+        
         
     });
 });
+
+
+
+//Get an deneme
+app.get('/deneme/:id', (req, res) => {
+    mysqlConnection.query('SELECT * FROM deneme WHERE id = ?', [req.params.id], (err, rows, fields) => {
+        if (!err){
+            
+            let current_datetime = new Date();
+            console.log(current_datetime);
+            let formatted_date = current_datetime.getDate() + "-" + "0" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear();
+            console.log(formatted_date);
+
+
+            console.log(rows[0].constructor.name);
+
+            var now = formatted_date;
+            var start = rows[0].date1;
+            var end = rows[0].date2;
+
+            var flag = dateCompare(now,start,end);
+            if (flag == true){
+                res.send(true);
+            }
+            else {
+                res.send("Date Error")
+            }
+        }     
+        else{
+            console.log(err);
+        }
+            
+    });
+});
+
+//Get all deneme
+app.get('/deneme', (req, res) => {
+    mysqlConnection.query('SELECT * FROM deneme', (err, rows, fields) => {
+        if (!err)
+            res.send(rows);
+        else
+            console.log(err);
+    });
+});
+
+
+
+
+
+
+
+function dateCompare(today,start,end){
+
+    console.log(typeof(start));
+
+    //For today
+    var now = today.split('-');
+    var yearNow = parseInt(now[2]);
+    var monthNow = parseInt(now[1]);
+    var dayNow = parseInt(now[0]);
+
+    //For date 1
+    var dateStart =  start.split('/');
+    var yearStart = parseInt(dateStart[0]);
+    var monthStart = parseInt(dateStart[1]);
+    var dayStart = parseInt(dateStart[2]);
+
+    //For date 2
+    var dateEnd =  end.split('/');
+    var yearEnd = parseInt(dateEnd[0]);
+    var monthEnd = parseInt(dateEnd[1]);
+    var dayEnd = parseInt(dateEnd[2]);
+
+    
+
+    var n = new Date(yearNow,monthNow -1, dayNow +1);
+    console.log(n);
+    var s = new Date(yearStart,monthStart -1, dayStart +1);
+    console.log(s);
+    var e = new Date(yearEnd,monthEnd -1, dayEnd +1);
+    console.log(e);
+
+    if(s <= n && n <= e){
+        var compare = true   
+    }
+    else {
+        var compare = false
+    }
+    console.log("here")
+    console.log(compare);
+
+    return compare;
+    
+}
+
+
+
+
+app.post('/deneme', (req, res) => {
+    let deneme = req.body;
+    
+
+    let current_datetime = new Date();
+    console.log(current_datetime);
+    let formatted_date = current_datetime.getDate() + "-" + "0" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear();
+    console.log(formatted_date);
+
+
+    var now = formatted_date;
+    var start = req.body.date1;
+    var end = req.body.date2;
+
+    console.log(now);
+    console.log(start);
+    console.log(end);
+  
+
+    
+    dateCompare(now,start,end);
+
+
+
+   var sql = "SET @id = ?; SET @date1 = ?; SET @date2 = ?; CALL insertDenemeProcedure(@id, @date1, @date2);";
+
+    mysqlConnection.query(sql, [req.body.id, req.body.date1, req.body.date2], (err, rows, fields) => {
+        if (!err)
+            res.send('Deneme  Inserted');
+        else
+            console.log(err);
+    });
+
+    
+});
+
+
+
+
+
 
 //Announcement********************************************************************
 
@@ -210,11 +357,14 @@ app.get('/announcements', (req, res) => {
 
 //Get an announcement
 app.get('/announcements/:id', (req, res) => {
-    mysqlConnection.query('SELECT * FROM announcements WHERE id = ?', [req.params.id], (err, rows, fields) => {
-        if (!err)
+    mysqlConnection.query('SELECT date FROM announcements WHERE id = ?', [req.params.id], (err, rows, fields) => {
+        if (!err){
             res.send(rows);
-        else
+        }     
+        else{
             console.log(err);
+        }
+            
     });
 });
 
@@ -639,6 +789,6 @@ app.put('/tabletennis', (req, res) => {
 
 
 
-
+/////insert masa tenisi yanlış
 // announcement takvim ayarlanıcak
 // turnuva sadece participant eklendi takımlı turnuvalar ne olucak
