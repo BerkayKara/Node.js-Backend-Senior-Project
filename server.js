@@ -39,9 +39,6 @@ const upload = multer({// multer storage ı yukardaki olsun
     },
     fileFilter: fileFilter
 
-    // fileFilter: function(req,file, cb){//cb = callbac k
-    //     checkFileType(file,cb)
-    // }
 }).single('image');
 
 // //Check File Type
@@ -265,7 +262,7 @@ app.get('/deneme', (req, res) => {
 
 
 
-function dateCompare(today,start,end){
+function dateCompare(id,today,start,end){
 
     console.log(typeof(start));
 
@@ -304,9 +301,17 @@ function dateCompare(today,start,end){
     }
     console.log("here")
     console.log(compare);
+    if(compare){
+        var sql = "UPDATE `bilsportdb`.`announcements` SET `display` = 1 WHERE `id` = ?;";
 
-    return compare;
-    
+        mysqlConnection.query(sql,[id] ,(err, rows, fields) => {
+            if (!err)
+                console.log("updated");
+            else
+                console.log(err);
+        });
+    }
+     
 }
 
 
@@ -334,7 +339,7 @@ app.post('/deneme', (req, res) => {
     
     dateCompare(now,start,end);
 
-   var sql = "SET @id = ?; SET @date1 = ?; SET @date2 = ?; CALL insertDenemeProcedure(@id, @date1, @date2);";
+    var sql = "SET @id = ?; SET @date1 = ?; SET @date2 = ?; CALL insertDenemeProcedure(@id, @date1, @date2);";
 
     mysqlConnection.query(sql, [req.body.id, req.body.date1, req.body.date2], (err, rows, fields) => {
         if (!err)
@@ -354,33 +359,33 @@ app.post('/deneme', (req, res) => {
 //Announcement********************************************************************
 //Get all announcements
 app.get('/announcements', (req, res) => {
-
     let current_datetime = new Date();
     console.log(current_datetime);
     let formatted_date = current_datetime.getDate() + "-" + "0" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear();
     console.log(formatted_date);
-
     mysqlConnection.query('SELECT * FROM announcements', (err, rows, fields) => {
-
-
-
         if (!err){
             for (var i = 0; i < rows.length; i++) {
-                console.log(rows[i]);
-
                 var now = formatted_date;
                 var start = rows[i].startdate;
                 var end =  rows[i].enddate;
-                var flag = dateCompare(now,start,end);
-                if (flag == true){
-                    res.send("Its okey");
-                }
-
+                dateCompare(rows[i].id,now,start,end);
             }
         }   
         else
             console.log(err);
     });
+
+    //getting announcements which will be displayed (display 1)
+    mysqlConnection.query('SELECT * FROM announcements where display = 1', (err, rows, fields) => {
+        if (!err){
+            res.send(rows);
+        }   
+        else
+            console.log(err);
+    });
+
+
 });
 
 
@@ -412,8 +417,9 @@ app.delete('/announcements/:id', (req, res) => {
 app.post('/announcements', (req, res) => {
     let announcement = req.body;
     console.log(announcement);
-    var sql = "SET @text = ?; CALL insertAnnouncementsProcedure(@text);";
-    mysqlConnection.query(sql, [announcement.text], (err, rows, fields) => {
+    let display = 0;
+    var sql = "INSERT INTO `bilsportdb`.`announcements`(`title`, `text`, `photopath`, `startdate`, `enddate`, `display`)VALUES  (?,?,?,?,?,?);";
+    mysqlConnection.query(sql, [announcement.title, announcement.text, announcement.photopath, announcement.startdate, announcement.enddate, display], (err, rows, fields) => {
         if (!err)
             res.send('Announcement Inserted');
         else
@@ -426,8 +432,9 @@ app.post('/announcements', (req, res) => {
 //Update an announcement
 app.put('/announcements', (req, res) => {
     let announcement = req.body;
-    var sql = "SET @id = ?; SET @text = ?; CALL updateAnnouncementProcedure(@id, @text);";
-    mysqlConnection.query(sql, [announcement.id, announcement.text], (err, rows, fields) => {
+    let display = 0;
+    var sql = "SET @id = ?; SET @title = ?; SET @text = ?; SET @photopath = ?; SET @startdate = ?; SET @enddate = ?; SET @display = ?; CALL updateAnnouncementProcedure(@id,@title, @text, @photopath, @startdate, @enddate, @display);";
+    mysqlConnection.query(sql, [announcement.id, announcement.title, announcement.text, announcement.photopath, announcement.startdate, announcement.enddate, display], (err, rows, fields) => {
         if (!err)
             res.send('Updated successfully');
         else
