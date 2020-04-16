@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 03 Nis 2020, 21:02:07
+-- Üretim Zamanı: 16 Nis 2020, 20:39:13
 -- Sunucu sürümü: 10.4.10-MariaDB
 -- PHP Sürümü: 7.3.12
 
@@ -33,9 +33,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insertAccountProcedure` (IN `_name`
 END$$
 
 DROP PROCEDURE IF EXISTS `insertAnnouncementsProcedure`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insertAnnouncementsProcedure` (IN `_text` VARCHAR(150))  BEGIN
-	INSERT INTO announcements(text)
-	VALUES (_text);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertAnnouncementsProcedure` (IN `_title` VARCHAR(150), IN `_text` VARCHAR(150), IN `_photopath` VARCHAR(150), IN `_startdate` VARCHAR(150), IN `_enddate` VARCHAR(150), IN `_display` VARCHAR(150))  BEGIN
+	INSERT INTO announcements
+	VALUES (_title,_text,_photopath,_startdate,_enddate,_display);
+END$$
+
+DROP PROCEDURE IF EXISTS `insertDenemeProcedure`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertDenemeProcedure` (IN `_id` INT, IN `_date1` DATE, IN `_date2` DATE)  BEGIN
+	INSERT INTO deneme
+	VALUES (_id, _date1 ,_date2);
 END$$
 
 DROP PROCEDURE IF EXISTS `insertFootballProcedure`$$
@@ -76,10 +82,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insertTennisProcedure` (IN `_id` IN
 END$$
 
 DROP PROCEDURE IF EXISTS `updateAnnouncementProcedure`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `updateAnnouncementProcedure` (IN `_id` INT, IN `_text` VARCHAR(150))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateAnnouncementProcedure` (IN `_id` VARCHAR(150), IN `_title` VARCHAR(150), IN `_text` VARCHAR(150), IN `_photopath` VARCHAR(150), IN `_startdate` VARCHAR(150), IN `_enddate` VARCHAR(150), IN `_display` VARCHAR(150))  BEGIN
 	UPDATE announcements
 	SET
-	text = _text
+    title = _title,    
+	text = _text,
+    photopath = _photopath,
+    startdate = _startdate,
+    enddate = _enddate,
+    display = _display
     WHERE id = _id;
 END$$
 
@@ -144,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `account` (
   `email` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
   `status` varchar(45) NOT NULL,
-  PRIMARY KEY (`bilkentId`)
+  PRIMARY KEY (`bilkentId`,`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -152,7 +163,8 @@ CREATE TABLE IF NOT EXISTS `account` (
 --
 
 INSERT INTO `account` (`name`, `surname`, `bilkentId`, `email`, `password`, `status`) VALUES
-('Berkay', 'kara', 21524644, 'bkkaa@gmail.com', '123', 'academic');
+('Berkay', 'kara', 21524644, 'bkkaa@gmail.com', '123', 'academic'),
+('Berkay', 'kara', 215246441, 'bkkaa@gmail.com', '123', 'academic');
 
 -- --------------------------------------------------------
 
@@ -162,28 +174,51 @@ INSERT INTO `account` (`name`, `surname`, `bilkentId`, `email`, `password`, `sta
 
 DROP TABLE IF EXISTS `announcements`;
 CREATE TABLE IF NOT EXISTS `announcements` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `text` varchar(150) NOT NULL,
-  `date` timestamp NULL DEFAULT current_timestamp(),
-  KEY `id` (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) NOT NULL,
+  `text` varchar(250) NOT NULL,
+  `photopath` varchar(150) NOT NULL,
+  `startdate` varchar(45) NOT NULL,
+  `enddate` varchar(45) NOT NULL,
+  `display` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `announcements`
 --
 
-INSERT INTO `announcements` (`id`, `text`, `date`) VALUES
-(1, 'yagmur', '2012-12-11 21:00:00'),
-(2, 'arca', '2012-12-11 21:00:00'),
-(3, 'yagmur', '2012-12-11 21:00:00'),
-(5, 'berkay', '2012-12-10 21:00:00'),
-(6, 'yagmur', '2012-12-10 21:00:00'),
-(7, 'yagmur', '2012-12-10 21:00:00'),
-(8, 'berkay', '2012-12-10 21:00:00'),
-(9, 'berkay', '2012-12-10 21:00:00'),
-(10, 'berkay kara deneme', '2012-12-19 21:00:00'),
-(11, 'TEAM 8 MEETING', '2012-12-19 21:00:00'),
-(12, 'This is the test of auto date', '2020-03-09 19:25:30');
+INSERT INTO `announcements` (`id`, `title`, `text`, `photopath`, `startdate`, `enddate`, `display`) VALUES
+(1, 'Corona virus', 'Our sports centers will be closed during quarantine. As a Bilkent sport center we wish you all healhty happy quarantines', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2020/01/01', '2030/12/12', '1'),
+(2, 'Test', 'This is wrong', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2025/01/01', '2030/12/12', '0'),
+(3, 'Test', 'This is wrong', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2000/01/01', '2030/12/12', '1'),
+(4, 'Test', 'This is wrong', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2030/12/12', '1'),
+(5, 'Berkay Kara', 'Update Test', 'aa', '2019/02/02', '2028/10/15', '1'),
+(6, 'Berkay Kara', 'Insert Test', 'aa', '2019/02/02', '2028/10/15', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `deneme`
+--
+
+DROP TABLE IF EXISTS `deneme`;
+CREATE TABLE IF NOT EXISTS `deneme` (
+  `id` int(11) NOT NULL,
+  `date1` varchar(45) NOT NULL,
+  `date2` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `deneme`
+--
+
+INSERT INTO `deneme` (`id`, `date1`, `date2`) VALUES
+(1, '2020/04/05', '2020/04/24'),
+(2, '2019/02/24', '2020/02/24'),
+(3, '2020/12/24', '2027/05/24'),
+(4, '2004/12/24', '2019/05/24');
 
 -- --------------------------------------------------------
 
@@ -236,7 +271,9 @@ INSERT INTO `pool` (`id`, `lane`, `quota`) VALUES
 (4, 'Lane 4', 4),
 (5, 'Lane 5', 4),
 (6, 'Lane 6', 4),
-(17, 'berkay test', 20);
+(17, 'berkay test', 20),
+(8, '30', 5),
+(9, '30', 5);
 
 -- --------------------------------------------------------
 
@@ -312,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `register` (
   `email` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
   `status` varchar(45) NOT NULL,
-  PRIMARY KEY (`bilkentId`)
+  PRIMARY KEY (`bilkentId`,`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -320,7 +357,9 @@ CREATE TABLE IF NOT EXISTS `register` (
 --
 
 INSERT INTO `register` (`name`, `surname`, `bilkentId`, `email`, `password`, `status`) VALUES
-('Berkay', 'kara', 21524644, 'bkkaa@gmail.com', '123', 'academic');
+('Berkay', 'kara', 21524644, 'bkkaa@gmail.com', '123', 'academic'),
+('Berkay', 'kara', 215246441, 'bkkaa@gmail.com', '123', 'academic'),
+('berkay', 'kara', 1111, 'aa@gmail.com', '222', 'admin');
 
 -- --------------------------------------------------------
 
