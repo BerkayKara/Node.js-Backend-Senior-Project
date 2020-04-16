@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const app = express();
 const path = require('path') ;
-const ejs = require('ejs');
 var dateFormat = require('dateformat');
 var moment = require('moment');
 
@@ -22,47 +21,51 @@ const storage  = multer.diskStorage({//public te store et bütün fotoları
     }
 });
 
-//ejs
-app.set('view engine', 'ejs');
 
-app.use(express.static('./public'));
+const fileFilter = (req,file,cb) => {
+    if(file.mimetype === 'image/jpeg' ||file.mimetype === 'image/png'||file.mimetype === 'image/jpg'){
+        cb(null,true);
+    }
+    else{
+        cb(new Error("File Type is wrong"),false);
+    }
+};
 
 
 const upload = multer({// multer storage ı yukardaki olsun
     storage: storage,
-    limits:{fileSize: 1000000},
-    fileFilter: function(req,file, cb){//cb = callbac k
-        checkFileType(file,cb)
-    }
+    limits:{
+        fileSize: 1024*1024*10//10MB
+    },
+    fileFilter: fileFilter
+
+    // fileFilter: function(req,file, cb){//cb = callbac k
+    //     checkFileType(file,cb)
+    // }
 }).single('image');
 
-//Check File Type
-function checkFileType(file,cb){
-    // Allowed extentions
-    const filetypes = /jpeg|jpg|png|gif|jfif/;
-    //check extention
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    //check mime
-    const mimetype = filetypes.test(file.mimetype);
+// //Check File Type
+// function checkFileType(file,cb){
+//     // Allowed extentions
+//     const filetypes = /jpeg|jpg|png|gif|jfif/;
+//     //check extention
+//     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+//     //check mime
+//     const mimetype = filetypes.test(file.mimetype);
 
-    if (mimetype && extname){
-        return cb(null,true);
-    } else {
-        cb('Error: Images Only!');
-    }
-}
+//     if (mimetype && extname){
+//         return cb(null,true);
+//     } else {
+//         cb('Error: Images Only!');
+//     }
+// }
 
 
-app.get('/img', (req,res) => res.render('index'));
 
 
 app.post('/upload', upload, (req,res,err) => {
     console.log(req.file);
-    if(err){
-        res.status(404);
-    }else{
-        res.status(200);
-    }
+    res.send(req.file.path);
     // upload(req,res,(err) => {
     //     if (err){
     //         res.render('index', {//tekrar resim yükleme sayfasına yönlendir
@@ -100,7 +103,7 @@ app.use(session({
 
 
 app.listen(8081, (err) => {
-    console.log("Server is running at port 8080");
+    console.log("Server is running at port 8081");
 });
 
 var mysqlConnection = mysql.createConnection({
@@ -142,7 +145,7 @@ app.post('/login', function (req, res) {
 );
 
 //display session
-app.get('/bak', function(req, res) {
+app.get('/sessionInfo', function(req, res) {
     if(req.session.id) return res.send("session info: "+req.session.bilkentId);
     res.send("no session");
  });
@@ -199,13 +202,8 @@ app.post('/account', (req, res) => {
             res.send(err.sqlMessage);
         
         console.log(err);
-
-
-        
-        
     });
 });
-
 
 
 //Get an deneme
@@ -217,7 +215,6 @@ app.get('/deneme/:id', (req, res) => {
             console.log(current_datetime);
             let formatted_date = current_datetime.getDate() + "-" + "0" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear();
             console.log(formatted_date);
-
 
             console.log(rows[0].constructor.name);
 
@@ -242,17 +239,29 @@ app.get('/deneme/:id', (req, res) => {
 
 //Get all deneme
 app.get('/deneme', (req, res) => {
+
+    let current_datetime = new Date();
+    console.log(current_datetime);
+    let formatted_date = current_datetime.getDate() + "-" + "0" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear();
+    console.log(formatted_date);
+
     mysqlConnection.query('SELECT * FROM deneme', (err, rows, fields) => {
-        if (!err)
-            res.send(rows);
+        if (!err){
+            for (var i = 0; i < rows.length; i++) {
+                var now = formatted_date;
+                var start = rows[i].date1;
+                var end =  rows[i].date2;
+                var flag = dateCompare(now,start,end);
+                if (flag == true){
+                    res.send(rows[i]);
+                }
+
+            }
+        }   
         else
             console.log(err);
     });
 });
-
-
-
-
 
 
 
@@ -325,8 +334,6 @@ app.post('/deneme', (req, res) => {
     
     dateCompare(now,start,end);
 
-
-
    var sql = "SET @id = ?; SET @date1 = ?; SET @date2 = ?; CALL insertDenemeProcedure(@id, @date1, @date2);";
 
     mysqlConnection.query(sql, [req.body.id, req.body.date1, req.body.date2], (err, rows, fields) => {
@@ -345,12 +352,32 @@ app.post('/deneme', (req, res) => {
 
 
 //Announcement********************************************************************
-
 //Get all announcements
 app.get('/announcements', (req, res) => {
+
+    let current_datetime = new Date();
+    console.log(current_datetime);
+    let formatted_date = current_datetime.getDate() + "-" + "0" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear();
+    console.log(formatted_date);
+
     mysqlConnection.query('SELECT * FROM announcements', (err, rows, fields) => {
-        if (!err)
-            res.send(rows);
+
+
+
+        if (!err){
+            for (var i = 0; i < rows.length; i++) {
+                console.log(rows[i]);
+
+                var now = formatted_date;
+                var start = rows[i].startdate;
+                var end =  rows[i].enddate;
+                var flag = dateCompare(now,start,end);
+                if (flag == true){
+                    res.send("Its okey");
+                }
+
+            }
+        }   
         else
             console.log(err);
     });
@@ -461,13 +488,6 @@ app.put('/statistics', (req, res) => {
             console.log(err);
     });
 });
-
-
-
-
-
-
-
 
 
 
