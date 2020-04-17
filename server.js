@@ -391,7 +391,7 @@ app.get('/announcements', (req, res) => {
 
 //Get an announcement
 app.get('/announcements/:id', (req, res) => {
-    mysqlConnection.query('SELECT date FROM announcements WHERE id = ?', [req.params.id], (err, rows, fields) => {
+    mysqlConnection.query('SELECT * FROM announcements WHERE id = ?', [req.params.id], (err, rows, fields) => {
         if (!err){
             res.send(rows);
         }     

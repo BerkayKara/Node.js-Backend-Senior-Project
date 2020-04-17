@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 17 Nis 2020, 09:18:36
+-- Üretim Zamanı: 17 Nis 2020, 11:56:11
 -- Sunucu sürümü: 10.4.10-MariaDB
 -- PHP Sürümü: 7.3.12
 
@@ -183,17 +183,21 @@ CREATE TABLE IF NOT EXISTS `announcements` (
   `enddate` varchar(45) NOT NULL,
   `display` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `announcements`
 --
 
 INSERT INTO `announcements` (`id`, `title`, `text`, `photopath`, `startdate`, `enddate`, `display`) VALUES
-(1, 'Corona Virus', 'Due to Corona Virus crisis our sports centers will be closed until 1 August.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2020/08/01', '0'),
-(2, 'Towel Rule', 'In our sports center, users have to bring their towels. Otherwise they will not be accepted to sports center.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2030/08/01', '0'),
-(3, 'Fitness Rule', 'When you train with weights, you have to bring them back to their places.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2030/08/01', '0'),
-(4, 'Openning/Closing', 'Sports Center (Dormitories Sports Hall)\nWeekdays: 07:30 a.m. – 11:00 p.m.\nWeekends: 09:00 a.m. – 11:00 p.m.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2030/08/01', '0');
+(1, 'Corona Virus', 'Due to Corona Virus crisis our sports centers will be closed until 1 August.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2020/08/01', '1'),
+(2, 'Towel Rule', 'In our sports center, users have to bring their towels. Otherwise they will not be accepted to sports center.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2030/08/01', '1'),
+(3, 'Fitness Rule', 'When you train with weights, you have to bring them back to their places.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2030/08/01', '1'),
+(4, 'Openning/Closing', 'Sports Center (Dormitories Sports Hall)\nWeekdays: 07:30 a.m. – 11:00 p.m.\nWeekends: 09:00 a.m. – 11:00 p.m.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2030/08/01', '1'),
+(5, 'New Mini Football Pitch', 'As Bilkent University Sports Center we would like to inform you that, the new football pitch is opened. Its near our Dormitory Sports Hall. You can play there with maximum 10 people.', 'C:UsersBerkay KaraDesktopBackendpublicuploads', '2020/01/01', '2020/09/05', '1'),
+(6, 'Career Fair', 'Due to career fair, Our main sports hall will be closed between 19 May and 23 May.', 'C:UsersBerkay KaraDesktopBackendpublicuploads', '2020/01/01', '2020/09/05', '1'),
+(7, 'Zumba Event', 'There will be zumba event in dormitory sports center in 04 May Monday. Therefore basketball courts will be closed in 4th May', 'C:UsersBerkay KaraDesktopBackendpublicuploads', '2020/01/01', '2020/09/05', '1'),
+(8, 'Pool is closed', 'For your health, our pool is cleaned very Monday. Therefore, our pool will be closed every monday.', 'C:UsersBerkay KaraDesktopBackendpublicuploads', '2020/01/01', '2020/09/05', '1');
 
 -- --------------------------------------------------------
 
