@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 16 Nis 2020, 20:39:13
+-- Üretim Zamanı: 17 Nis 2020, 09:18:36
 -- Sunucu sürümü: 10.4.10-MariaDB
 -- PHP Sürümü: 7.3.12
 
@@ -163,8 +163,9 @@ CREATE TABLE IF NOT EXISTS `account` (
 --
 
 INSERT INTO `account` (`name`, `surname`, `bilkentId`, `email`, `password`, `status`) VALUES
-('Berkay', 'kara', 21524644, 'bkkaa@gmail.com', '123', 'academic'),
-('Berkay', 'kara', 215246441, 'bkkaa@gmail.com', '123', 'academic');
+('Berkay', 'Kara', 21502129, 'berkay.kara@ug.bilkent.edu.tr', '123', 'student'),
+('Ahsen', 'Küçükdurmaz', 123, 'admin@bilkent.edu.tr', '123', 'admin'),
+('Ali Alper', 'Sakar', 21401897, 'alper.sakar@bilkent.edu.tr', '123', 'academic');
 
 -- --------------------------------------------------------
 
@@ -182,19 +183,17 @@ CREATE TABLE IF NOT EXISTS `announcements` (
   `enddate` varchar(45) NOT NULL,
   `display` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `announcements`
 --
 
 INSERT INTO `announcements` (`id`, `title`, `text`, `photopath`, `startdate`, `enddate`, `display`) VALUES
-(1, 'Corona virus', 'Our sports centers will be closed during quarantine. As a Bilkent sport center we wish you all healhty happy quarantines', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2020/01/01', '2030/12/12', '1'),
-(2, 'Test', 'This is wrong', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2025/01/01', '2030/12/12', '0'),
-(3, 'Test', 'This is wrong', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2000/01/01', '2030/12/12', '1'),
-(4, 'Test', 'This is wrong', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2030/12/12', '1'),
-(5, 'Berkay Kara', 'Update Test', 'aa', '2019/02/02', '2028/10/15', '1'),
-(6, 'Berkay Kara', 'Insert Test', 'aa', '2019/02/02', '2028/10/15', '1');
+(1, 'Corona Virus', 'Due to Corona Virus crisis our sports centers will be closed until 1 August.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2020/08/01', '0'),
+(2, 'Towel Rule', 'In our sports center, users have to bring their towels. Otherwise they will not be accepted to sports center.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2030/08/01', '0'),
+(3, 'Fitness Rule', 'When you train with weights, you have to bring them back to their places.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2030/08/01', '0'),
+(4, 'Openning/Closing', 'Sports Center (Dormitories Sports Hall)\nWeekdays: 07:30 a.m. – 11:00 p.m.\nWeekends: 09:00 a.m. – 11:00 p.m.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2030/08/01', '0');
 
 -- --------------------------------------------------------
 
