@@ -137,7 +137,14 @@ router.delete('/:id', (req, res) => {
 
 //Insert an announcement
 router.post('/', (req, res) => {
-    let announcement = req.body;
+    let announcement = {
+        title: req.body.title,
+        text: req.body.text,
+        photopath: req.body.photopath,
+        startdate: req.body.startdate,
+        enddate: req.body.enddate,
+
+    };
     console.log(announcement);
     let display = 0;
     var sql = "INSERT INTO `bilsportdb`.`announcements`(`title`, `text`, `photopath`, `startdate`, `enddate`, `display`)VALUES  (?,?,?,?,?,?);";

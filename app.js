@@ -1,9 +1,7 @@
-//Creating the server 
-//Berkay Kara
-
 const express = require('express');
 const app = express();
 const morgan = require("morgan");
+const bodyParser = require('body-parser');
 
 const announcementRoutes = require("./api/routes/announcements");
 const statisticsRoutes = require("./api/routes/statistics");
@@ -13,9 +11,25 @@ const tennisRoutes = require("./api/routes/tennis");
 const footballRoutes = require("./api/routes/football");
 const registerRoutes = require("./api/routes/register");
 const accountRoutes = require("./api/routes/account");
+const loginRoutes = require("./api/routes/login");
 
 
 app.use(morgan("dev"));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
+app.use((req,res,next) => {
+    res.header("Access-Control-Allow-Origin","*");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    if(req.method ==="OPTIONS"){
+        res.header("Access-Control-Allow-Methods","PUT","POST","PATCH","DELETE","GET");
+        return res.status(200).json({}); 
+    }
+
+});
 
 app.use("/announcements",announcementRoutes);
 app.use("/statistics",statisticsRoutes);
@@ -25,6 +39,7 @@ app.use("/tennis",tennisRoutes);
 app.use("/football",footballRoutes);
 app.use("/register",registerRoutes);
 app.use("/account",accountRoutes);
+app.use("/login",loginRoutes);
 
 
 //Error Handling
@@ -44,12 +59,7 @@ app.use((req,res,next) => {
 });
 
 
-const mysql = require('mysql');
-const bodyParser = require('body-parser');
-const session = require('express-session');
 const path = require('path') ;
-
-
 
 
 const multer = require('multer');
@@ -132,51 +142,22 @@ app.post('/upload', upload, (req,res,err) => {
 // app.use(bodyParser.json());
 
 
-// app.use(session({
-//      secret: 'secret', 
-//      resave: false,
-//      saveUninitialized: true
-// }));
 
 
+// //display session
+// app.get('/sessionInfo', function(req, res) {
+//     if(req.session.id){
+//         return res.send("session info: "+req.session.bilkentId);
+//     }
+//     res.send("no session");
+//  });
 
 
-
-// Login
-app.post('/login', function (req, res) {
-    console.log(req.body.user.bilkentId);
-    let bilkentId = req.body.user.bilkentId;
-    let password = req.body.user.password;
-    mysqlConnection.query('SELECT * FROM account WHERE bilkentId = ? AND password = ?', [bilkentId, password], (err, rows, fields) => {
-        if (!err) {
-            if (rows.length > 0){
-                req.session.bilkentId = bilkentId;
-                res.send(rows);
-            }    
-            else
-                res.send(404);
-        }
-        else {
-            res.send(err);
-        }
-    });
-}
-);
-
-//display session
-app.get('/sessionInfo', function(req, res) {
-    if(req.session.id){
-        return res.send("session info: "+req.session.bilkentId);
-    }
-    res.send("no session");
- });
-
-
-// Logout
-app.post('/logout', function(req, res) {
-   req.session.destroy();
-   res.end();
-});
+// // Logout
+// app.post('/logout', function(req, res) {
+//    req.session.destroy();
+//    res.end();
+// });
 
 
 
