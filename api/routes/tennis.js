@@ -1,27 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
-
-const mysql = require('mysql');
-const bodyParser = require('body-parser');
-
-var mysqlConnection = mysql.createConnection({ 
-    password: '',
-    user: 'root',
-    database: 'bilsportdb',
-    host: 'localhost',
-    multipleStatements: true,
-    dateStrings: true
-
-});
-
-mysqlConnection.connect((err) => {
-    if (!err)
-        console.log('DB connection Successfull');
-    else
-        console.log('DB connection failed');
-});
-
+const mysqlConnection = require("../../config/db");
 
 //Get all tennis courts
 router.get('/', (req, res) => {

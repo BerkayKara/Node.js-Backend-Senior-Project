@@ -1,34 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const session = require('express-session');
+const mysqlConnection = require("../../config/db");
 
 router.use(session({
     secret: 'secret', 
     resave: false,
     saveUninitialized: true
 }));
-
-
-const mysql = require('mysql');
-
-
-
-var mysqlConnection = mysql.createConnection({ 
-    password: '',
-    user: 'root',
-    database: 'bilsportdb',
-    host: 'localhost',
-    multipleStatements: true,
-    dateStrings: true
-
-});
-
-mysqlConnection.connect((err) => {
-    if (!err)
-        console.log('DB connection Successfull');
-    else
-        console.log('DB connection failed');
-});
 
 // Login
 router.post('/', function (req, res) {
