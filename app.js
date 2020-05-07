@@ -14,14 +14,23 @@ const registerRoutes = require("./api/routes/register");
 const accountRoutes = require("./api/routes/account");
 const loginRoutes = require("./api/routes/login");
 const file = require("./api/routes/fileUpload");
-
+const tBadminton = require("./api/routes/tournaments/badminton");
+const tSquash = require("./api/routes/tournaments/squash");
+const tTableTennis = require("./api/routes/tournaments/tableTennis");
+const tTennis = require("./api/routes/tournaments/tennis");
+const basketball3 = require("./api/routes/tournaments/basketball3");
+const basketball5 = require("./api/routes/tournaments/basketball5");
+const volleyball4 = require("./api/routes/tournaments/volleyball4");
+const volleyball6 = require("./api/routes/tournaments/volleyball6");
+const football6 = require("./api/routes/tournaments/football6");
 
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+//Solution for CORS Policy Error
 app.use((req,res,next) => {
-    res.header("Access-Control-Allow-Origin","http://localhost:8081");
+    res.header("Access-Control-Allow-Origin","*");
     res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept, Authorization"
@@ -43,6 +52,16 @@ app.use("/register",registerRoutes);
 app.use("/account",accountRoutes);
 app.use("/login",loginRoutes);
 app.use("/upload",file);
+app.use("/tbadminton",tBadminton);
+app.use("/tsquash",tSquash);
+app.use("/ttabletennis",tTableTennis);
+app.use("/ttennis",tTennis);
+app.use("/basketball3",basketball3);
+app.use("/basketball5",basketball5);
+app.use("/volleyball4",volleyball4);
+app.use("/volleyball6",volleyball6);
+app.use("/football6",football6);
+
 
 //Error Handling
 app.use((req,res,next) =>{
@@ -62,10 +81,6 @@ app.use((req,res,next) => {
 
 
 
-
-
-
-
 // //display session
 // app.get('/sessionInfo', function(req, res) {
 //     if(req.session.id){
@@ -82,80 +97,4 @@ app.use((req,res,next) => {
 // });
 
 
-
-
-
-
-
-// //Get all table tennis participant
-// app.get('/tabletennis', (req, res) => {
-//     mysqlConnection.query('SELECT * FROM tennis', (err, rows, fields) => {
-//         if (!err)
-//             res.send(rows);
-//         else
-//             console.log(err);
-//     });
-// });
-
-// //Get a table tennis participant
-// app.get('/tabletennis/:id', (req, res) => {
-//     mysqlConnection.query('SELECT * FROM tennis WHERE id = ?', [req.params.id], (err, rows, fields) => {
-//         if (!err)
-//             res.send(rows);
-//         else
-//             console.log(err);
-//     });
-// });
-
-
-// //Delete a  table tennis participant
-// app.delete('/tabletennis/:id', (req, res) => {
-//     mysqlConnection.query('DELETE FROM tennis WHERE id = ?', [req.params.id], (err, rows, fields) => {
-//         if (!err)
-//             res.send('Deleted successfully');
-//         else
-//             console.log(err);
-//     });
-// });
-
-
-// //Insert a table tennis participant
-// app.post('/tabletennis', (req, res) => {
-//     let tabletennis = req.body;
-//     var sql = "SET @id = ?; SET @court = ? ;SET @campus = ?;CALL insertTennisProcedure(@id, @court,@campus);";
-//     mysqlConnection.query(sql, [tabletennis.id, tabletennis.court, tabletennis.campus], (err, rows, fields) => {
-//         if (!err)
-//             res.send('Inserted table tennis participant id: ' + tabletennis.id);
-//         else
-//             console.log(err);
-//     });
-// });
-
-
-// //Update a table tennis participant
-// app.put('/tabletennis', (req, res) => {
-//     let tabletennis = req.body;
-//     var sql = "SET @id = ?; SET @court = ?; SET @campus = ?;CALL updateTennisProcedure(@id, @court,@campus);";
-//     mysqlConnection.query(sql, [tennis.id, tennis.court, tennis.campus], (err, rows, fields) => {
-//         if (!err)
-//             res.send('Updated successfully');
-//         else
-//             console.log(err);
-//     });
-// });
-
-
-
-
-
-
-
-
-
-
-
-
 module.exports = app;
-/////insert masa tenisi yanlış
-// announcement takvim ayarlanıcak
-// turnuva sadece participant eklendi takımlı turnuvalar ne olucak

@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const mysqlConnection = require("../../config/db");
 
-
 function dateCompare(id,today,start,end){
 
     console.log(typeof(start));
@@ -44,7 +43,6 @@ function dateCompare(id,today,start,end){
     console.log(compare);
     if(compare){
         var sql = "UPDATE `bilsportdb`.`announcements` SET `display` = 1 WHERE `id` = ?;";
-
         mysqlConnection.query(sql,[id] ,(err, rows, fields) => {
             if (!err)
                 console.log("updated");
@@ -54,8 +52,6 @@ function dateCompare(id,today,start,end){
     }
      
 }
-
-
 
 //Get all announcements
 router.get('/', (req, res, next) => {
@@ -75,7 +71,6 @@ router.get('/', (req, res, next) => {
         else
             console.log(err);
     });
-
     //getting announcements which will be displayed (display 1)
     mysqlConnection.query('SELECT * FROM announcements where display = 1', (err, rows, fields) => {
         if (!err){
@@ -84,10 +79,7 @@ router.get('/', (req, res, next) => {
         else
             console.log(err);
     });
-
-
 });
-
 
 //Get an announcement
 router.get('/:id', (req, res) => {
@@ -97,8 +89,7 @@ router.get('/:id', (req, res) => {
         }     
         else{
             console.log(err);
-        }
-            
+        }          
     });
 });
 
@@ -121,7 +112,6 @@ router.post('/', (req, res) => {
         photopath: req.body.photopath,
         startdate: req.body.startdate,
         enddate: req.body.enddate,
-
     };
     console.log(announcement);
     let display = 0;
@@ -133,8 +123,6 @@ router.post('/', (req, res) => {
             console.log(err);
     });
 });
-
-
 
 //Update an announcement
 router.put('/', (req, res) => {
@@ -148,6 +136,5 @@ router.put('/', (req, res) => {
             console.log(err);
     });
 });
-
 
 module.exports = router;
