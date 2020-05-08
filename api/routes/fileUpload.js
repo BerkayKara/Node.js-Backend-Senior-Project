@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const path = require('path') ;
 const multer = require('multer');
+const mysqlConnection = require("../../config/db");
 
 const storage  = multer.diskStorage({//public te store et bütün fotoları
     destination: './public/uploads/',
@@ -28,46 +29,25 @@ const upload = multer({// multer storage ı yukardaki olsun
 
 }).single('image');
 
-// //Check File Type
-// function checkFileType(file,cb){
-//     // Allowed extentions
-//     const filetypes = /jpeg|jpg|png|gif|jfif/;
-//     //check extention
-//     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-//     //check mime
-//     const mimetype = filetypes.test(file.mimetype);
-//     if (mimetype && extname){
-//         return cb(null,true);
-//     } else {
-//         cb('Error: Images Only!');
-//     }
-// }
-
 router.post('/', upload, (req,res,err) => {
     console.log(req.file);
-    res.send(req.file.path);
-    // upload(req,res,(err) => {
-    //     if (err){
-    //         res.render('index', {//tekrar resim yükleme sayfasına yönlendir
-    //             msg: err
-    //         });
-    //     } else {
-    //         if (req.file == undefined){
-    //             res.render('index', {
-    //                 msg: 'Error: No File Selected'
-    //             });
-    //         } else {
-    //             console.log(req.file);
-    //             res.render('index', {
-    //                 msg: 'File Uploaded!',
-    //                 file: `ùploads/${req.file.filename}`
-    //             });
-    //         }
-    //         console.log(req.file);     
-    //     }
-    // })
+    var sql = "INSERT INTO `bilsportdb`.`file`(`name`, `path`) VALUES(?,?);";
+    mysqlConnection.query(sql, [req.file.originalname,req.file.path], (err, rows, fields) => {
+        if (!err)
+            res.send('Inserted file name: ' + req.file.originalname);
+        else
+            console.log(err);
+    });
 });
 
-
+router.get('/:name', (req, res) => {
+    mysqlConnection.query('SELECT path FROM file WHERE name = ?', [req.params.name], (err, rows, fields) => {
+        if (!err){
+            res.download(rows[0].path);
+        }  
+        else
+            console.log(err);
+    });
+});
 
 module.exports = router;
