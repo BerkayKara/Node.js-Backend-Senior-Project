@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 17 Nis 2020, 11:56:11
+-- Üretim Zamanı: 08 May 2020, 12:36:51
 -- Sunucu sürümü: 10.4.10-MariaDB
 -- PHP Sürümü: 7.3.12
 
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `announcements` (
   `enddate` varchar(45) NOT NULL,
   `display` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `announcements`
@@ -197,31 +197,31 @@ INSERT INTO `announcements` (`id`, `title`, `text`, `photopath`, `startdate`, `e
 (5, 'New Mini Football Pitch', 'As Bilkent University Sports Center we would like to inform you that, the new football pitch is opened. Its near our Dormitory Sports Hall. You can play there with maximum 10 people.', 'C:UsersBerkay KaraDesktopBackendpublicuploads', '2020/01/01', '2020/09/05', '1'),
 (6, 'Career Fair', 'Due to career fair, Our main sports hall will be closed between 19 May and 23 May.', 'C:UsersBerkay KaraDesktopBackendpublicuploads', '2020/01/01', '2020/09/05', '1'),
 (7, 'Zumba Event', 'There will be zumba event in dormitory sports center in 04 May Monday. Therefore basketball courts will be closed in 4th May', 'C:UsersBerkay KaraDesktopBackendpublicuploads', '2020/01/01', '2020/09/05', '1'),
-(8, 'Pool is closed', 'For your health, our pool is cleaned very Monday. Therefore, our pool will be closed every monday.', 'C:UsersBerkay KaraDesktopBackendpublicuploads', '2020/01/01', '2020/09/05', '1');
+(8, 'Pool is closed', 'For your health, our pool is cleaned very Monday. Therefore, our pool will be closed every monday.', 'C:UsersBerkay KaraDesktopBackendpublicuploads', '2020/01/01', '2020/09/05', '1'),
+(9, 'Sports Centers', 'Sports Centers will be open in 19 June 2020', 'aa', '2019/02/02', '2028/10/15', '1');
 
 -- --------------------------------------------------------
 
 --
--- Tablo için tablo yapısı `deneme`
+-- Tablo için tablo yapısı `file`
 --
 
-DROP TABLE IF EXISTS `deneme`;
-CREATE TABLE IF NOT EXISTS `deneme` (
-  `id` int(11) NOT NULL,
-  `date1` varchar(45) NOT NULL,
-  `date2` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `file`;
+CREATE TABLE IF NOT EXISTS `file` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `path` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
--- Tablo döküm verisi `deneme`
+-- Tablo döküm verisi `file`
 --
 
-INSERT INTO `deneme` (`id`, `date1`, `date2`) VALUES
-(1, '2020/04/05', '2020/04/24'),
-(2, '2019/02/24', '2020/02/24'),
-(3, '2020/12/24', '2027/05/24'),
-(4, '2004/12/24', '2019/05/24');
+INSERT INTO `file` (`id`, `name`, `path`) VALUES
+(1, '635.jpg', 'public\\uploads\\635.jpg-.jpg'),
+(2, 'm4.jpg', 'public\\uploads\\m4.jpg-.jpg'),
+(3, 'm4.jpg', 'public\\uploads\\m4.jpg-.jpg');
 
 -- --------------------------------------------------------
 
@@ -277,66 +277,6 @@ INSERT INTO `pool` (`id`, `lane`, `quota`) VALUES
 (17, 'berkay test', 20),
 (8, '30', 5),
 (9, '30', 5);
-
--- --------------------------------------------------------
-
---
--- Tablo için tablo yapısı `p_badminton`
---
-
-DROP TABLE IF EXISTS `p_badminton`;
-CREATE TABLE IF NOT EXISTS `p_badminton` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `bilkentId` int(11) NOT NULL,
-  `email` varchar(45) NOT NULL,
-  `ge` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Tablo için tablo yapısı `p_squash`
---
-
-DROP TABLE IF EXISTS `p_squash`;
-CREATE TABLE IF NOT EXISTS `p_squash` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `bilkentId` int(11) NOT NULL,
-  `email` varchar(45) NOT NULL,
-  `ge` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Tablo için tablo yapısı `p_tabletennis`
---
-
-DROP TABLE IF EXISTS `p_tabletennis`;
-CREATE TABLE IF NOT EXISTS `p_tabletennis` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `bilkentID` int(11) NOT NULL,
-  `email` varchar(45) NOT NULL,
-  `ge` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Tablo için tablo yapısı `p_tennis`
---
-
-DROP TABLE IF EXISTS `p_tennis`;
-CREATE TABLE IF NOT EXISTS `p_tennis` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `bilkentId` int(11) NOT NULL,
-  `email` varchar(45) NOT NULL,
-  `ge` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -441,6 +381,239 @@ INSERT INTO `tennis` (`id`, `court`, `campus`) VALUES
 (2, 'Court 2', 'Main Campus'),
 (3, 'Court 3', 'Main Campus'),
 (4, 'Court 4', 'East Campus');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `t_badminton`
+--
+
+DROP TABLE IF EXISTS `t_badminton`;
+CREATE TABLE IF NOT EXISTS `t_badminton` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `t_badminton`
+--
+
+INSERT INTO `t_badminton` (`id`, `bilkentId`, `email`, `ge`) VALUES
+(1, 21502129, 'berkaykara@ug.bilkent.edu.tr', 1),
+(2, 21602121, 'ahmet@ug.bilkent.edu.tr', 1),
+(3, 21001122, 'aa@gmail.com', 0),
+(4, 21212233, 'aa@gmail.com', 1),
+(5, 21001122, 'aa@gmail.com', 0),
+(6, 21001122, 'aa@gmail.com', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `t_basketball3`
+--
+
+DROP TABLE IF EXISTS `t_basketball3`;
+CREATE TABLE IF NOT EXISTS `t_basketball3` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  `team` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `t_basketball3`
+--
+
+INSERT INTO `t_basketball3` (`id`, `bilkentId`, `email`, `ge`, `team`) VALUES
+(1, 21502129, 'berkay@ug.bilkent.edu.tr', 0, 'team1'),
+(2, 21212121, 'ali@ug.bilkent.edu.tr', 1, 'team1'),
+(3, 20204541, 'mehmet@ug.bilkent.edu.tr', 0, 'team1'),
+(4, 20401425, 'mert@ug.bilkent.edu.tr', 1, 'team2'),
+(6, 21502129, 'berkaykara@gmail.com', 0, 'team2'),
+(8, 21902565, 'eray@gmail.com', 1, 'team2'),
+(9, 21702565, 'haydar@gmail.com', 0, 'team3'),
+(10, 21702565, 'muhammet@gmail.com', 0, 'team3'),
+(11, 21702565, 'mehmet@gmail.com', 0, 'team3');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `t_basketball5`
+--
+
+DROP TABLE IF EXISTS `t_basketball5`;
+CREATE TABLE IF NOT EXISTS `t_basketball5` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  `team` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `t_basketball5`
+--
+
+INSERT INTO `t_basketball5` (`id`, `bilkentId`, `email`, `ge`, `team`) VALUES
+(1, 21702565, 'ahmet@gmail.com', 0, 'team1'),
+(2, 21702565, 'berkay@gmail.com', 0, 'team1'),
+(3, 21702565, 'ali@gmail.com', 0, 'team1'),
+(4, 21702565, 'mehmet@gmail.com', 0, 'team1'),
+(5, 21702565, 'alper@gmail.com', 0, 'team1'),
+(6, 21712565, 'eray@gmail.com', 0, 'team2'),
+(7, 21722565, 'eray@gmail.com', 0, 'team2'),
+(8, 21732565, 'eray@gmail.com', 0, 'team2'),
+(9, 21742565, 'eray@gmail.com', 0, 'team2'),
+(10, 21752565, 'eray@gmail.com', 0, 'team2');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `t_football6`
+--
+
+DROP TABLE IF EXISTS `t_football6`;
+CREATE TABLE IF NOT EXISTS `t_football6` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  `team` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `t_football6`
+--
+
+INSERT INTO `t_football6` (`id`, `bilkentId`, `email`, `ge`, `team`) VALUES
+(1, 21502129, 'berkay@gmail.com', 0, 'team1'),
+(2, 21501119, 'mete@gmail.com', 0, 'team1'),
+(3, 21401219, 'alper@gmail.com', 1, 'team1'),
+(4, 21601219, 'arca@gmail.com', 1, 'team1'),
+(5, 21501219, 'mert@gmail.com', 1, 'team1'),
+(6, 21402219, 'ozcan@gmail.com', 1, 'team1');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `t_squash`
+--
+
+DROP TABLE IF EXISTS `t_squash`;
+CREATE TABLE IF NOT EXISTS `t_squash` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `t_squash`
+--
+
+INSERT INTO `t_squash` (`id`, `bilkentId`, `email`, `ge`) VALUES
+(1, 21212233, 'aa@gmail.com', 1),
+(2, 21502129, 'berkaykara@gmail.com', 0),
+(3, 21402129, 'berkaykara@gmail.com', 0),
+(4, 21402129, 'berkaykara@gmail.com', 0),
+(5, 21402129, 'berkaykara@gmail.com', 0),
+(6, 21102129, 'berkaykqara@gmail.com', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `t_tabletennis`
+--
+
+DROP TABLE IF EXISTS `t_tabletennis`;
+CREATE TABLE IF NOT EXISTS `t_tabletennis` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentID` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `t_tabletennis`
+--
+
+INSERT INTO `t_tabletennis` (`id`, `bilkentID`, `email`, `ge`) VALUES
+(1, 21502129, 'berkaykara@gmail.com', 0),
+(2, 215012129, 'berkayakara@gmail.com', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `t_tennis`
+--
+
+DROP TABLE IF EXISTS `t_tennis`;
+CREATE TABLE IF NOT EXISTS `t_tennis` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `t_tennis`
+--
+
+INSERT INTO `t_tennis` (`id`, `bilkentId`, `email`, `ge`) VALUES
+(1, 21502129, 'berkaykara@gmail.com', 0),
+(2, 215002129, 'berkaykaara@gmail.com', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `t_volleyball4`
+--
+
+DROP TABLE IF EXISTS `t_volleyball4`;
+CREATE TABLE IF NOT EXISTS `t_volleyball4` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  `team` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `t_volleyball4`
+--
+
+INSERT INTO `t_volleyball4` (`id`, `bilkentId`, `email`, `ge`, `team`) VALUES
+(1, 21722565, 'berkay@gmail.com', 0, 'team1'),
+(2, 211722565, 'berkaay@gmail.com', 0, 'team1'),
+(3, 211712565, 'berkaaay@gmail.com', 0, 'team1'),
+(4, 2117125265, 'bearkaaay@gmail.com', 0, 'team1');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `t_volleyball6`
+--
+
+DROP TABLE IF EXISTS `t_volleyball6`;
+CREATE TABLE IF NOT EXISTS `t_volleyball6` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  `team` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
