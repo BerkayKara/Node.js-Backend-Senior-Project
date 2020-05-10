@@ -26,6 +26,7 @@ const upload = multer({// multer storage ı yukardaki olsun
         fileSize: 1024*1024*10//10MB
     },
     fileFilter: fileFilter
+
 }).single('image');
 
 router.post('/', upload, (req,res,err) => {

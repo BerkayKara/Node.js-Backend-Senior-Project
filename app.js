@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 
 
 const announcementRoutes = require("./api/routes/announcements");
+const eventRoutes = require("./api/routes/events");
 const statisticsRoutes = require("./api/routes/statistics");
 const poolRoutes = require("./api/routes/pool");
 const squashRoutes = require("./api/routes/squash");
@@ -43,6 +44,7 @@ app.use((req,res,next) => {
 });
 
 app.use("/announcements",announcementRoutes);
+app.use("/events",eventRoutes);
 app.use("/statistics",statisticsRoutes);
 app.use("/pool",poolRoutes);
 app.use("/squash",squashRoutes);
