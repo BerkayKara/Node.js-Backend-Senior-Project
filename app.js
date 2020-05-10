@@ -24,7 +24,9 @@ const basketball5 = require("./api/routes/tournaments/basketball5");
 const volleyball4 = require("./api/routes/tournaments/volleyball4");
 const volleyball6 = require("./api/routes/tournaments/volleyball6");
 const football6 = require("./api/routes/tournaments/football6");
+const authorize = require("./api/routes/authorize");
 
+authorize
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -63,6 +65,7 @@ app.use("/basketball5",basketball5);
 app.use("/volleyball4",volleyball4);
 app.use("/volleyball6",volleyball6);
 app.use("/football6",football6);
+app.use("/authorize",authorize);
 
 
 //Error Handling
