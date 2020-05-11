@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 08 May 2020, 12:36:51
+-- Üretim Zamanı: 11 May 2020, 22:06:19
 -- Sunucu sürümü: 10.4.10-MariaDB
 -- PHP Sürümü: 7.3.12
 
@@ -165,7 +165,8 @@ CREATE TABLE IF NOT EXISTS `account` (
 INSERT INTO `account` (`name`, `surname`, `bilkentId`, `email`, `password`, `status`) VALUES
 ('Berkay', 'Kara', 21502129, 'berkay.kara@ug.bilkent.edu.tr', '123', 'student'),
 ('Ahsen', 'Küçükdurmaz', 123, 'admin@bilkent.edu.tr', '123', 'admin'),
-('Ali Alper', 'Sakar', 21401897, 'alper.sakar@bilkent.edu.tr', '123', 'academic');
+('Ali Alper', 'Sakar', 21401897, 'alper.sakar@bilkent.edu.tr', '123', 'academic'),
+('Ahmet', 'Çakar', 111, 'abc@abc.com', '111', 'academic');
 
 -- --------------------------------------------------------
 
@@ -176,8 +177,8 @@ INSERT INTO `account` (`name`, `surname`, `bilkentId`, `email`, `password`, `sta
 DROP TABLE IF EXISTS `announcements`;
 CREATE TABLE IF NOT EXISTS `announcements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) NOT NULL,
-  `text` varchar(250) NOT NULL,
+  `title` varchar(150) NOT NULL,
+  `text` varchar(1000) NOT NULL,
   `photopath` varchar(150) NOT NULL,
   `startdate` varchar(45) NOT NULL,
   `enddate` varchar(45) NOT NULL,
@@ -199,6 +200,103 @@ INSERT INTO `announcements` (`id`, `title`, `text`, `photopath`, `startdate`, `e
 (7, 'Zumba Event', 'There will be zumba event in dormitory sports center in 04 May Monday. Therefore basketball courts will be closed in 4th May', 'C:UsersBerkay KaraDesktopBackendpublicuploads', '2020/01/01', '2020/09/05', '1'),
 (8, 'Pool is closed', 'For your health, our pool is cleaned very Monday. Therefore, our pool will be closed every monday.', 'C:UsersBerkay KaraDesktopBackendpublicuploads', '2020/01/01', '2020/09/05', '1'),
 (9, 'Sports Centers', 'Sports Centers will be open in 19 June 2020', 'aa', '2019/02/02', '2028/10/15', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `badmintonmain`
+--
+
+DROP TABLE IF EXISTS `badmintonmain`;
+CREATE TABLE IF NOT EXISTS `badmintonmain` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `badmintonmain`
+--
+
+INSERT INTO `badmintonmain` (`id`, `bilkentId`, `email`, `ge`) VALUES
+(7, 22111, 'bb@gmail.com', 1),
+(8, 1111, 'b111b@gmail.com', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `basketballmain`
+--
+
+DROP TABLE IF EXISTS `basketballmain`;
+CREATE TABLE IF NOT EXISTS `basketballmain` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  `team` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `basketballmain`
+--
+
+INSERT INTO `basketballmain` (`id`, `bilkentId`, `email`, `ge`, `team`) VALUES
+(12, 1111, 'b111b@gmail.com', 0, 'AGRI1'),
+(13, 11111, 'b1a11b@gmail.com', 0, 'AGRI1'),
+(14, 1111111, 'b1a2211b@gmail.com', 0, 'AGRI1');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `course`
+--
+
+DROP TABLE IF EXISTS `course`;
+CREATE TABLE IF NOT EXISTS `course` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  `instructor` varchar(45) NOT NULL,
+  `schedule` varchar(45) NOT NULL,
+  `level` varchar(45) NOT NULL,
+  `place` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `events`
+--
+
+DROP TABLE IF EXISTS `events`;
+CREATE TABLE IF NOT EXISTS `events` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(150) NOT NULL,
+  `text` varchar(1000) NOT NULL,
+  `photopath` varchar(150) NOT NULL,
+  `startdate` varchar(45) NOT NULL,
+  `enddate` varchar(45) NOT NULL,
+  `display` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `events`
+--
+
+INSERT INTO `events` (`id`, `title`, `text`, `photopath`, `startdate`, `enddate`, `display`) VALUES
+(1, 'Spring Run 2020, Spring', 'Date: Saturday, May 16, 2020 Time: 11:00 a.m. Distance: 2 k. (Walk & Run) Free of Charge Registration Deadline: Friday, May 15, 2020 All students, academic and administrative staff and their family members are welcome to participate in this special event. It is recommended that you train and get ready ahead of time. Trophies will be presented to the first three finishers in each category. Categories are according to age as follows: 11-15, 16-20, 21-25, 26-30, 31-35, 36-44, 45-54, 55-59, 60 and over.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2028/08/01', '1'),
+(2, 'Zumba Master Class 2020, Spring', 'Date: March 3, Tuesday Time: 18:30 p.m.  Place : Main Sports Hall', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2028/08/01', '1'),
+(3, 'Strong By Zumba 2020, Spring', 'Date: March 12, Thursday Time: 18:30 p.m. Place : Main Sports Hall', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2028/08/01', '1'),
+(4, 'Fit Challenge 2020, Spring', 'Date:March 30 , Monday-  April 26, Sunday Place: Dormitories Sports Hall A 4-week work-out program which involves cardiovascular endurance and muscle strengthening exercises. If you wish to improve your heart and lung capacity, metabolic rate, muscle and bone density and moreover to direct the daily stresses positively while having fun, then you are welcome to join this challenging special event.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2028/08/01', '1'),
+(5, 'Swim Challenge 2020, Spring', 'We invite all our members to participate to the event which takes 4 weeks with the aim of gaining regular exercise habit. During those 4 weeks who swim at least 3 times more than 45 minute will receive t-shirt and price with lottery. Women Date: March 31, Thursday – May 3, Sunday, Place: Swimming Pool. Men Date: March 31, Thursday – April 26 , Sunday Place: Swimming Pool.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2028/08/01', '1'),
+(6, 'Indoor Triathlon 2020, Spring', 'Date: April 4, Saturday, Time: 10:30 a.m. Place: Swimming Pool We invite all Bilkent members to our new event in which you do swimming, cycling, and running back to back.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2028/08/01', '1'),
+(7, 'Swimming Festival 2020, Spring', 'Date: March 28, Thursday Time: 6:30 p.m. With the participation of swimmers from all levels 50 meters swimming races will be made. We invite you to join us to have fun and release you stress to limped water in our swimming pool.', 'C:UsersBerkay KaraDesktopBackendpublicuploads635.jpg-.jpgg', '2005/01/01', '2028/08/01', '1');
 
 -- --------------------------------------------------------
 
@@ -381,6 +479,30 @@ INSERT INTO `tennis` (`id`, `court`, `campus`) VALUES
 (2, 'Court 2', 'Main Campus'),
 (3, 'Court 3', 'Main Campus'),
 (4, 'Court 4', 'East Campus');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `tournaments`
+--
+
+DROP TABLE IF EXISTS `tournaments`;
+CREATE TABLE IF NOT EXISTS `tournaments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `campus` varchar(45) NOT NULL,
+  `teamquota` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `tournaments`
+--
+
+INSERT INTO `tournaments` (`id`, `name`, `campus`, `teamquota`) VALUES
+(1, 'Basketball', 'Main', '3'),
+(2, 'Basketball', 'Main', '3'),
+(3, 'Badminton', 'Main', '1');
 
 -- --------------------------------------------------------
 
