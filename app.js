@@ -26,7 +26,7 @@ const volleyball6 = require("./api/routes/tournaments/volleyball6");
 const football6 = require("./api/routes/tournaments/football6");
 const authorize = require("./api/routes/authorize");
 const tournaments = require("./api/routes/tournaments");
-const tournaments1 = require("./api/routes/tournaments/tournament1");
+const enrollTournament = require("./api/routes/enrollTournament");
 const courses = require("./api/routes/course");
 
 authorize
@@ -70,7 +70,7 @@ app.use("/volleyball6",volleyball6);
 app.use("/football6",football6);
 app.use("/authorize",authorize);
 app.use("/tournaments",tournaments);
-app.use("/tournaments1",tournaments1);
+app.use("/enrollTournament",enrollTournament);
 app.use("/courses",courses);
 
 

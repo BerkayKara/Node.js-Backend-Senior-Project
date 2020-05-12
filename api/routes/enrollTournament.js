@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const mysqlConnection = require("../../../config/db");
+const mysqlConnection = require("../../config/db");
 
 function checkEmail(email,dbName){
     return new Promise((resolve, reject) => {
@@ -53,7 +53,7 @@ function checkTeamQuota(team,dbName,teamquota) {
 
 
 router.get('/', (req, res) => {
-    var dbName = req.body.name + req.body.campus;
+    var dbName = req.body.name + req.body.campus + req.body.teamquota;
     mysqlConnection.query("SELECT * FROM " + dbName, (err, rows, fields) => {
         if (!err)
             res.send(rows);
@@ -63,7 +63,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-    var dbName = req.body.name + req.body.campus;
+    var dbName = req.body.name + req.body.campus + req.body.teamquota;
     mysqlConnection.query("SELECT * FROM " + dbName + " WHERE id = ?", [req.params.id], (err, rows, fields) => {
         if (!err)
             res.send(rows);
@@ -84,9 +84,10 @@ router.delete('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
     let participant = req.body;
-    var dbName = req.body.name + req.body.campus;
+    var dbName = req.body.name + req.body.campus + req.body.teamquota;
     let idCheck = checkId(req.body.bilkentId,dbName);
     let emailCheck = checkEmail(req.body.email,dbName);
+
     if(req.body.teamquota == 1){
         emailCheck.then((value) => {
             idCheck.then((value) => {
