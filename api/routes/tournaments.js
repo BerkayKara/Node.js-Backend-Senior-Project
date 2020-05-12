@@ -2,67 +2,8 @@ const express = require("express");
 const router = express.Router();
 const mysqlConnection = require("../../config/db");
 
-
-function deleteTournamentTable(){
-    return new Promise((resolve, reject) => {
-        var sql = "DROP TABLE IF EXISTS " + tournamentName;
-        mysqlConnection.query(sql,  (err, rows, fields) => {});
-        resolve(10);
-    }); 
-
-}
-
-
-//Get all tournaments
-router.get('/', (req, res) => {
-    mysqlConnection.query('SELECT * FROM tournaments', (err, rows, fields) => {
-        if (!err)
-            res.send(rows);
-        else
-            console.log(err);
-    });
-});
-
-//Get a tournament
-router.get('/:id', (req, res) => {
-    mysqlConnection.query('SELECT * FROM tournaments WHERE id = ?', [req.params.id], (err, rows, fields) => {
-        if (!err)
-            res.send(rows);
-        else
-            console.log(err);
-    });
-});
-
-//Delete a tournament
-router.delete('/:id', (req, res) => {
-    var id = req.params.id;
-    var teamName;
-    var sql = "SELECT `tournaments`.`name`,`tournaments`.`campus` FROM `bilsportdb`.`tournaments` WHERE id = ?;";
-    mysqlConnection.query(sql, [id], (err, rows, fields) => {
-        if (!err){
-            teamName = rows[0].name + rows[0].campus;
-        }
-        else
-            console.log(err);
-    });
-    let deleteCheck = deleteTournamentTable(teamName);
-    deleteCheck.then((value) => {
-        mysqlConnection.query('DELETE FROM tournaments WHERE id = ?', [id], (err, rows, fields) => {
-            if (!err)
-                res.send('Deleted successfully');
-            else
-                console.log(err);
-        });
-    }).catch((error) => {
-        console.log(deleteCheck);
-        res.send("Cannot delete tournament");
-    });    
-
-    
-});
-
 function createTable(name,campus, teamquota) {
-    var tournamentName = name + campus;
+    var tournamentName = name + campus + teamquota;
     if(teamquota == 1){
         return new Promise((resolve, reject) => {
             var sql = "DROP TABLE IF EXISTS " + tournamentName + "; CREATE TABLE IF NOT EXISTS " + tournamentName +" ( `id` int(11) NOT NULL AUTO_INCREMENT, `bilkentId` int(11) NOT NULL, `email` varchar(45) NOT NULL, `ge` tinyint(4) NOT NULL, PRIMARY KEY (`id`)) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;"
@@ -99,23 +40,71 @@ function createTable(name,campus, teamquota) {
     }    
 }
 
+function checkExist(name,campus,teamquota){
+    return new Promise((resolve, reject) => {
+        var sql = "SELECT * FROM `bilsportdb`.`tournaments` WHERE name = ? AND campus = ? AND teamquota = ?; ";
+        mysqlConnection.query(sql, [name,campus,teamquota], (err, rows, fields) => {
+            if (rows.length > 0){
+                console.log(rows.length);
+                reject(-1);  
+            }
+            else{
+                console.log(rows.length);
+                resolve(10);
+            }
+        });
+    });
+}
 
-router.post('/', (req, res) => {
-    let tableCheck = createTable(tournament.name,tournament.campus,tournament.teamquota);
-    tableCheck.then((value) => {
-        var sql = "INSERT INTO `bilsportdb`.`tournaments`(`name`, `campus`, `teamquota`) VALUES(?,?,?);";
-        mysqlConnection.query(sql, [tournament.name, tournament.campus, tournament.teamquota], (err, rows, fields) => {
+router.get('/', (req, res) => {
+    mysqlConnection.query('SELECT * FROM tournaments', (err, rows, fields) => {
+        if (!err)
+            res.send(rows);
+        else
+            console.log(err);
+    });
+});
+
+router.get('/:id', (req, res) => {
+    mysqlConnection.query('SELECT * FROM tournaments WHERE id = ?', [req.params.id], (err, rows, fields) => {
+        if (!err)
+            res.send(rows);
+        else
+            console.log(err);
+    });
+});
+
+router.delete('/:id', (req, res) => {
+        mysqlConnection.query('DELETE FROM tournaments WHERE id = ?', [req.params.id], (err, rows, fields) => {
             if (!err)
-                res.send('Inserted tournament: ' + tournament.name + tournament.campus);
+                res.send('Deleted successfully');
             else
                 console.log(err);
         });
-    }).catch((error) => {
-        console.log(tableCheck);
-        res.send("Cannot create table");
-    });    
 });
 
+router.post('/', (req, res) => {
+    var tournament = req.body;
+    let tableCheck = createTable(tournament.name,tournament.campus,tournament.teamquota);
+    let existCheck = checkExist(tournament.name,tournament.campus,tournament.teamquota);
+    existCheck.then((value) => {
+        tableCheck.then((value) => {
+            var sql = "INSERT INTO `bilsportdb`.`tournaments`(`name`, `campus`, `teamquota`) VALUES(?,?,?);";
+            mysqlConnection.query(sql, [tournament.name, tournament.campus, tournament.teamquota], (err, rows, fields) => {
+                if (!err)
+                    res.send('Inserted tournament: ' + tournament.name + tournament.campus + tournament.teamquota);
+                else
+                    console.log(err);
+            });
+        }).catch((error) => {
+            console.log(tableCheck);
+            res.send("Cannot create table");
+        });       
+    }).catch((error) => {
+        console.log(existCheck);
+        res.send("This tournament exists");
+    });    
+});
 
 router.put('/:id', (req, res) => {
     let tournament = req.body;
