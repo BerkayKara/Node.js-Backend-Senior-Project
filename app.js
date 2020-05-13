@@ -28,8 +28,9 @@ const authorize = require("./api/routes/authorize");
 const tournaments = require("./api/routes/tournaments");
 const enrollTournament = require("./api/routes/enrollTournament");
 const courses = require("./api/routes/course");
+const enrollCourse = require("./api/routes/enrollCourse");
 
-authorize
+
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -72,6 +73,7 @@ app.use("/authorize",authorize);
 app.use("/tournaments",tournaments);
 app.use("/enrollTournament",enrollTournament);
 app.use("/courses",courses);
+app.use("/enrollCourse",enrollCourse);
 
 
 

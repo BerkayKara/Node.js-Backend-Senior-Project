@@ -12,8 +12,8 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
-    mysqlConnection.query('SELECT * FROM course WHERE id = ?', [req.params.id], (err, rows, fields) => {
+router.get('/:name', (req, res) => {
+    mysqlConnection.query('SELECT * FROM course WHERE name = ?', [req.params.name], (err, rows, fields) => {
         if (!err)
             res.send(rows);
         else
@@ -32,8 +32,8 @@ router.delete('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    var sql = "INSERT INTO `bilsportdb`.`course`(`name`,`instructor`,`schedule`,`level`,`place`)VALUES(?,?,?,?,?);";
-    mysqlConnection.query(sql, [req.body.name, req.body.instructor, req.body.schedule, req.body.level, req.body.place], (err, rows, fields) => {
+    var sql = "INSERT INTO `bilsportdb`.`course`(`name`,`instructor`,`schedule`,`level`,`place`,`quota`)VALUES(?,?,?,?,?,?);";
+    mysqlConnection.query(sql, [req.body.name, req.body.instructor, req.body.schedule, req.body.level, req.body.place, req.body.quota], (err, rows, fields) => {
         if (!err)
               res.send('Inserted course: ' + req.body.name + "\nLevel:" + req.body.level);
             else
@@ -45,8 +45,8 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
     let course = req.body;
-    var sql = "UPDATE `bilsportdb`.`course` SET `name` = ?,`instructor` = ?,`schedule` = ?,`level` = ?,`place` = ?WHERE `id` = ?;";
-    mysqlConnection.query(sql, [req.body.name, req.body.instructor, req.body.schedule, req.body.level, req.body.place, req.params.id], (err, rows, fields) => {
+    var sql = "UPDATE `bilsportdb`.`course` SET `name` = ?,`instructor` = ?,`schedule` = ?,`level` = ?,`place` = ?, `quota` = ? WHERE `id` = ?;";
+    mysqlConnection.query(sql, [req.body.name, req.body.instructor, req.body.schedule, req.body.level, req.body.place, req.body.quota, req.params.id], (err, rows, fields) => {
         if (!err)
             res.send('Updated successfully');
         else

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 11 May 2020, 22:06:19
+-- Üretim Zamanı: 13 May 2020, 21:31:53
 -- Sunucu sürümü: 10.4.10-MariaDB
 -- PHP Sürümü: 7.3.12
 
@@ -204,50 +204,41 @@ INSERT INTO `announcements` (`id`, `title`, `text`, `photopath`, `startdate`, `e
 -- --------------------------------------------------------
 
 --
--- Tablo için tablo yapısı `badmintonmain`
+-- Tablo için tablo yapısı `badmintonmain1`
 --
 
-DROP TABLE IF EXISTS `badmintonmain`;
-CREATE TABLE IF NOT EXISTS `badmintonmain` (
+DROP TABLE IF EXISTS `badmintonmain1`;
+CREATE TABLE IF NOT EXISTS `badmintonmain1` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bilkentId` int(11) NOT NULL,
   `email` varchar(45) NOT NULL,
   `ge` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
-
---
--- Tablo döküm verisi `badmintonmain`
---
-
-INSERT INTO `badmintonmain` (`id`, `bilkentId`, `email`, `ge`) VALUES
-(7, 22111, 'bb@gmail.com', 1),
-(8, 1111, 'b111b@gmail.com', 0);
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Tablo için tablo yapısı `basketballmain`
+-- Tablo için tablo yapısı `basketballmain3`
 --
 
-DROP TABLE IF EXISTS `basketballmain`;
-CREATE TABLE IF NOT EXISTS `basketballmain` (
+DROP TABLE IF EXISTS `basketballmain3`;
+CREATE TABLE IF NOT EXISTS `basketballmain3` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bilkentId` int(11) NOT NULL,
   `email` varchar(45) NOT NULL,
   `ge` tinyint(4) NOT NULL,
   `team` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 --
--- Tablo döküm verisi `basketballmain`
+-- Tablo döküm verisi `basketballmain3`
 --
 
-INSERT INTO `basketballmain` (`id`, `bilkentId`, `email`, `ge`, `team`) VALUES
-(12, 1111, 'b111b@gmail.com', 0, 'AGRI1'),
-(13, 11111, 'b1a11b@gmail.com', 0, 'AGRI1'),
-(14, 1111111, 'b1a2211b@gmail.com', 0, 'AGRI1');
+INSERT INTO `basketballmain3` (`id`, `bilkentId`, `email`, `ge`, `team`) VALUES
+(12, 11111, 'b1a11b@gmail.com', 0, 'AGRI1'),
+(13, 111111, 'b1aa11b@gmail.com', 0, 'AGRI1');
 
 -- --------------------------------------------------------
 
@@ -259,13 +250,80 @@ DROP TABLE IF EXISTS `course`;
 CREATE TABLE IF NOT EXISTS `course` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `description` varchar(500) DEFAULT NULL,
   `instructor` varchar(45) NOT NULL,
   `schedule` varchar(45) NOT NULL,
   `level` varchar(45) NOT NULL,
   `place` varchar(45) NOT NULL,
+  `quota` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `course`
+--
+
+INSERT INTO `course` (`id`, `name`, `instructor`, `schedule`, `level`, `place`, `quota`) VALUES
+(1, 'Streching', 'Yeliz Savas Dingler', 'Monday 5:40 – 6:30', 'Beginner', 'Dormitories Sports Hall', 28),
+(2, 'Zumba', 'Seda Özsoy', 'Monday 6:40 – 7:30 p.m.', 'Beginner', 'Dormitories Sports Hall', 30),
+(3, 'Crunch', 'Yagmur Yeliz Doyan', 'Monday 7:40 – 8:10 p.m.', 'Beginner', 'Dormitories Sports Hall', 30),
+(4, 'Pilates', 'Yeliz Savas Dingler', 'Tuesday 4:40 – 5:30 p.m.', 'Beginner', 'Dormitories Sports Hall', 30),
+(5, 'Strong by Zumba', 'Seda Günaltay', 'Tuesday 5:40 – 6:30 p.m.', 'Intermediate', 'Dormitories Sports Hall', 30),
+(6, 'Yoga', 'Seda Özsoy', 'Tuesday 6:40 – 7:40 p.m.', 'Beginner', 'Dormitories Sports Hall', 30),
+(7, 'Total Body Shape', 'Ahsen Küçükdurmaz', 'Wednesday 6:40 – 7:30 p.m.', 'Beginner', 'Dormitories Sports Hall', 30),
+(8, 'Pilates', 'Yeliz Savas Dingler', 'Wednesday 5:40 – 6:30 p.m.', 'Beginner', 'Dormitories Sports Hall', 30),
+(9, 'Pilates', 'Yeliz Savas Dingler', 'Wednesday 7:40 – 8:30 p.m.', 'Intermediate', 'Dormitories Sports Hall', 30),
+(10, 'Strong by Zumba', 'Seda Günaltay', 'Thursday 5:40 – 6:30', 'Intermediate', 'Dormitories Sports Hall', 30),
+(11, 'Leg Workout', 'Ahsen Küçükdurmaz', 'Thursday 6:40 – 7:30 p.m.', 'Beginner', 'Dormitories Sports Hall', 30),
+(12, 'Crunch', 'Yagmur Yeliz Doyan', 'Thursday 7:40 – 8:10 p.m.', 'Beginner', 'Dormitories Sports Hall', 30),
+(13, 'Strong by Zumba', 'Seda Günaltay', 'Friday 5:40 – 6:30 p.m.', 'Intermediate', 'Dormitories Sports Hall', 30),
+(14, 'Yoga', 'Seda Günaltay', 'Friday 6:40 – 7:30 p.m.', 'Beginner', 'Dormitories Sports Hall', 30),
+(15, 'Yoga', 'Seda Günaltay', 'Sunday 11:00 – 11:50 p.m.', 'Intermediate', 'Dormitories Sports Hall', 30),
+(16, 'Zumba', 'Seda Özsoy', 'Saturday 11:00 – 11:50 p.m.', 'Beginner', 'Dormitories Sports Hall', 30),
+(17, 'Leg Workout', 'Seda Özsoy', 'Saturday 12:00 – 12:50 noon', 'Beginner', 'Dormitories Sports Hall', 30),
+(18, 'Total Body Shape', 'Ahsen Küçükdurmaz', 'Monday 5:40 – 6:30 p.m.', 'Intermediate', 'Main Sports Hall', 30),
+(19, 'Yoga', 'Seda Günaltay', 'Tuesday 12:00 – 1:00 noon', 'Beginner', 'Main Sports Hall', 30),
+(20, 'Zumba', 'Yagmur Yeliz Doyan', 'Tuesday 5:40 – 6:30 p.m.', 'Intermediate', 'Main Sports Hall', 30),
+(21, 'Yoga', 'Yeliz Savas Dingler', 'Tuesday 5:45 – 7:15 p.m', 'Intermediate', 'Main Sports Hall', 30),
+(22, 'Stretching', 'Seda Özsoy', 'Wednesday 12:00 – 1:00 noon', 'Intermediate', 'Main Sports Hall', 30),
+(23, 'Total Body Shape', 'Seda Günaltay', 'Wednesday 5:40 – 6:30 p.m.', 'Intermediate', 'Main Sports Hall', 30),
+(24, 'Yoga', 'Seda Günaltay', 'Thursday 12:00 – 1:00 noon', 'Beginner', 'Main Sports Hall', 30),
+(25, 'Yoga', 'Yeliz Savas Dingler', 'Thursday 5:45 – 7:15 p.m', 'Intermediate', 'Main Sports Hall', 30),
+(26, 'Zumba', 'Seda Özsoy', 'Thursday 5:40 – 6:30', 'Intermediate', 'Main Sports Hall', 30),
+(27, 'Tae Bo', 'Onur', 'Thursday 6:40 – 7:30 p.m.', 'Beginner', 'Main Sports Hall', 30),
+(28, 'Total Body Shape', 'Ahsen Küçükdurmaz', 'Friday 5:40 – 6:30 p.m.', 'Beginner', 'Main Sports Hall', 30),
+(29, 'AIKIDO', 'Mehmet Solmaz', 'Tuesday 7:30 – 9:00 p.m.', 'Beginner', 'Dormitories  Sports Hall', 30),
+(30, 'AIKIDO', 'Mehmet Solmaz', 'Friday 7:30 – 9:00 p.m.', 'Beginner', 'Dormitories  Sports Hall', 30),
+(31, 'Salsa', 'Yeliz Solmaz', 'Tuesday: 7:40 – 8:30 p.m', 'Beginner', 'Dormitories  Sports Hall', 30),
+(32, 'Argentine Tango', 'Selin Kaya', 'Tuesday: 8:40 – 9:30 p.m.', 'Beginner', 'Dormitories  Sports Hall', 30),
+(33, 'Argentine Tango', 'Selin Kaya', 'Tuesday: 9:40 – 10:30 p.m', 'Intermediate', 'Dormitories  Sports Hall', 30),
+(34, 'Deneme', 'Berkay Kara', 'Tuesday: 9:40 – 10:30 p.m', 'Intermediate', 'Dormitories  Sports Hall', 0),
+(35, 'Argentine Tango', 'Selin Kaya', 'Tuesday: 9:40 – 10:30 p.m', 'Intermediate', 'Dormitories  Sports Hall', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `coursestaken`
+--
+
+DROP TABLE IF EXISTS `coursestaken`;
+CREATE TABLE IF NOT EXISTS `coursestaken` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `courseId` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `coursestaken`
+--
+
+INSERT INTO `coursestaken` (`id`, `bilkentId`, `courseId`) VALUES
+(1, 21502129, 34),
+(2, 21502229, 34),
+(3, 21502120, 1),
+(4, 21502120, 35),
+(5, 21502121, 35),
+(6, 21502122, 35);
 
 -- --------------------------------------------------------
 
@@ -501,8 +559,8 @@ CREATE TABLE IF NOT EXISTS `tournaments` (
 
 INSERT INTO `tournaments` (`id`, `name`, `campus`, `teamquota`) VALUES
 (1, 'Basketball', 'Main', '3'),
-(2, 'Basketball', 'Main', '3'),
-(3, 'Badminton', 'Main', '1');
+(2, 'Badminton', 'Main', '1'),
+(3, 'Volleyball', 'East', '6');
 
 -- --------------------------------------------------------
 
@@ -736,6 +794,22 @@ CREATE TABLE IF NOT EXISTS `t_volleyball6` (
   `team` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `volleyballeast6`
+--
+
+DROP TABLE IF EXISTS `volleyballeast6`;
+CREATE TABLE IF NOT EXISTS `volleyballeast6` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  `team` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
