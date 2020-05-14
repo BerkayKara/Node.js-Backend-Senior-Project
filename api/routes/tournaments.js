@@ -15,12 +15,10 @@ function createTable(name,campus, teamquota) {
                 else{
                     console.log(err);
                     reject(-1);
-                }
-                    
+                }                  
             });
         });
     }
-
     else {
         return new Promise((resolve, reject) => {
             var sql = "DROP TABLE IF EXISTS " + tournamentName +" ;CREATE TABLE IF NOT EXISTS " + tournamentName + " (`id` int(11) NOT NULL AUTO_INCREMENT,`bilkentId` int(11) NOT NULL,`email` varchar(45) NOT NULL,`ge` tinyint(4) NOT NULL,`team` varchar(45) NOT NULL, PRIMARY KEY (`id`) ) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;"

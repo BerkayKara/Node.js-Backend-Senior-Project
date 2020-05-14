@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 13 May 2020, 21:31:53
+-- Üretim Zamanı: 14 May 2020, 21:26:47
 -- Sunucu sürümü: 10.4.10-MariaDB
 -- PHP Sürümü: 7.3.12
 
@@ -219,6 +219,38 @@ CREATE TABLE IF NOT EXISTS `badmintonmain1` (
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `basketballeast3`
+--
+
+DROP TABLE IF EXISTS `basketballeast3`;
+CREATE TABLE IF NOT EXISTS `basketballeast3` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  `team` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `basketballeast5`
+--
+
+DROP TABLE IF EXISTS `basketballeast5`;
+CREATE TABLE IF NOT EXISTS `basketballeast5` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  `team` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `basketballmain3`
 --
 
@@ -408,6 +440,38 @@ INSERT INTO `football` (`id`, `field`, `available`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `footballeast6`
+--
+
+DROP TABLE IF EXISTS `footballeast6`;
+CREATE TABLE IF NOT EXISTS `footballeast6` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  `team` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `footballmain6`
+--
+
+DROP TABLE IF EXISTS `footballmain6`;
+CREATE TABLE IF NOT EXISTS `footballmain6` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  `team` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `pool`
 --
 
@@ -517,6 +581,21 @@ INSERT INTO `statistics` (`id`, `km`, `sett`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `tabletennismain1`
+--
+
+DROP TABLE IF EXISTS `tabletennismain1`;
+CREATE TABLE IF NOT EXISTS `tabletennismain1` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `tennis`
 --
 
@@ -541,6 +620,21 @@ INSERT INTO `tennis` (`id`, `court`, `campus`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `tennismain1`
+--
+
+DROP TABLE IF EXISTS `tennismain1`;
+CREATE TABLE IF NOT EXISTS `tennismain1` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `tournaments`
 --
 
@@ -551,7 +645,7 @@ CREATE TABLE IF NOT EXISTS `tournaments` (
   `campus` varchar(45) NOT NULL,
   `teamquota` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `tournaments`
@@ -560,7 +654,14 @@ CREATE TABLE IF NOT EXISTS `tournaments` (
 INSERT INTO `tournaments` (`id`, `name`, `campus`, `teamquota`) VALUES
 (1, 'Basketball', 'Main', '3'),
 (2, 'Badminton', 'Main', '1'),
-(3, 'Volleyball', 'East', '6');
+(3, 'Volleyball', 'East', '6'),
+(4, 'Basketball', 'East', '3'),
+(5, 'Basketball', 'East', '5'),
+(6, 'Football', 'East', '6'),
+(7, 'Football', 'Main', '6'),
+(8, 'Volleyball', 'Main', '6'),
+(9, 'Tennis', 'Main', '1'),
+(10, 'Tabletennis', 'Main', '1');
 
 -- --------------------------------------------------------
 
@@ -803,6 +904,22 @@ CREATE TABLE IF NOT EXISTS `t_volleyball6` (
 
 DROP TABLE IF EXISTS `volleyballeast6`;
 CREATE TABLE IF NOT EXISTS `volleyballeast6` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `ge` tinyint(4) NOT NULL,
+  `team` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `volleyballmain6`
+--
+
+DROP TABLE IF EXISTS `volleyballmain6`;
+CREATE TABLE IF NOT EXISTS `volleyballmain6` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bilkentId` int(11) NOT NULL,
   `email` varchar(45) NOT NULL,
