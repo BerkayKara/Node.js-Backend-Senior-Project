@@ -65,8 +65,8 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
-    mysqlConnection.query('SELECT * FROM tournaments WHERE id = ?', [req.params.id], (err, rows, fields) => {
+router.get('/:name', (req, res) => {
+    mysqlConnection.query('SELECT * FROM tournaments WHERE name = ?', [req.params.name], (err, rows, fields) => {
         if (!err)
             res.send(rows);
         else
