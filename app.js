@@ -29,6 +29,7 @@ const tournaments = require("./api/routes/tournaments");
 const enrollTournament = require("./api/routes/enrollTournament");
 const courses = require("./api/routes/course");
 const enrollCourse = require("./api/routes/enrollCourse");
+const reservePool = require("./api/routes/reservePool");
 
 
 app.use(morgan("dev"));
@@ -74,6 +75,7 @@ app.use("/tournaments",tournaments);
 app.use("/enrollTournament",enrollTournament);
 app.use("/courses",courses);
 app.use("/enrollCourse",enrollCourse);
+app.use("/reservePool",reservePool);
 
 
 

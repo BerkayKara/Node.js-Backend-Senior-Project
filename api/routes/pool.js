@@ -14,8 +14,8 @@ router.get('/', (req, res) => {
 });
 
 //Get a pool lane
-router.get('/:id', (req, res) => {
-    mysqlConnection.query('SELECT * FROM pool WHERE id = ?', [req.params.id], (err, rows, fields) => {
+router.get('/:lane', (req, res) => {
+    mysqlConnection.query('SELECT * FROM pool WHERE lane =  ?', [req.params.lane], (err, rows, fields) => {
         if (!err)
             res.send(rows);
         else
@@ -36,10 +36,10 @@ router.delete('/:id', (req, res) => {
 //Insert a pool lane
 router.post('/', (req, res) => {
     let pool = req.body;
-    var sql = "SET @id = ?; SET @lane = ? ;SET @quota = ?;CALL insertPoolProcedure(@id,@lane,@quota);";
-    mysqlConnection.query(sql, [pool.id, pool.lane, pool.quota], (err, rows, fields) => {
+    var sql = "INSERT INTO `bilsportdb`.`pool`(`lane`,`quota`,`time`)VALUES(?,?,?);";
+    mysqlConnection.query(sql, [pool.lane, pool.quota, pool.time], (err, rows, fields) => {
         if (!err)
-            res.send('Inserted pool id: ' + pool.id);
+            res.send('Pool Inserted');
         else
             console.log(err);
     });
@@ -49,16 +49,13 @@ router.post('/', (req, res) => {
 //Update a pool lane
 router.put('/', (req, res) => {
     let pool = req.body;
-    var sql = "SET @id = ?; SET @lane = ?; SET @quota = ?;CALL updatePoolProcedure(@id, @lane,@quota);";
-    mysqlConnection.query(sql, [pool.id, pool.lane, pool.quota], (err, rows, fields) => {
+    var sql = "UPDATE `bilsportdb`.`pool` SET `lane` = ?,`quota` = ?, `time` = ? WHERE `id` = ?;";
+    mysqlConnection.query(sql, [pool.lane, pool.quota, pool.time,pool.id], (err, rows, fields) => {
         if (!err)
             res.send('Updated successfully');
         else
             console.log(err);
     });
 });
-
-
-
 
 module.exports = router;

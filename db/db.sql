@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 14 May 2020, 21:26:47
+-- Üretim Zamanı: 15 May 2020, 09:34:50
 -- Sunucu sürümü: 10.4.10-MariaDB
 -- PHP Sürümü: 7.3.12
 
@@ -477,26 +477,85 @@ CREATE TABLE IF NOT EXISTS `footballmain6` (
 
 DROP TABLE IF EXISTS `pool`;
 CREATE TABLE IF NOT EXISTS `pool` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `lane` varchar(45) NOT NULL,
   `quota` int(11) NOT NULL,
+  `time` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=68 DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `pool`
 --
 
-INSERT INTO `pool` (`id`, `lane`, `quota`) VALUES
-(1, 'Lane 1', 4),
-(2, 'Lane 2', 4),
-(3, 'Lane 3', 4),
-(4, 'Lane 4', 4),
-(5, 'Lane 5', 4),
-(6, 'Lane 6', 4),
-(17, 'berkay test', 20),
-(8, '30', 5),
-(9, '30', 5);
+INSERT INTO `pool` (`id`, `lane`, `quota`, `time`) VALUES
+(1, 'Lane 1', 4, '12.00 - 12.30 pm'),
+(2, 'Lane 2', 4, '12.00 - 12.30 pm'),
+(3, 'Lane 3', 4, '12.00 - 12.30 pm'),
+(4, 'Lane 4', 4, '12.00 - 12.30 pm'),
+(5, 'Lane 5', 4, '12.00 - 12.30 pm'),
+(6, 'Lane 6', 4, '12.00 - 12.30 pm'),
+(7, 'Lane 1', 4, '12.30 - 13.00 pm'),
+(8, 'Lane 2', 4, '12.30 - 13.00 pm'),
+(9, 'Lane 3', 4, '12.30 - 13.00 pm'),
+(10, 'Lane 4', 4, '12.30 - 13.00 pm'),
+(11, 'Lane 5', 4, '12.30 - 13.00 pm'),
+(12, 'Lane 6', 4, '12.30 - 13.00 pm'),
+(13, 'Lane 1', 4, '13.00 - 13.30 pm'),
+(14, 'Lane 2', 4, '13.00 - 13.30 pm'),
+(15, 'Lane 3', 4, '13.00 - 13.30 pm'),
+(16, 'Lane 4', 4, '13.00 - 13.30 pm'),
+(17, 'Lane 5', 4, '13.00 - 13.30 pm'),
+(18, 'Lane 6', 4, '13.00 - 13.30 pm'),
+(19, 'Lane 1', 4, '13.30 - 14.00 pm'),
+(20, 'Lane 1', 4, '13.30 - 14.00 pm'),
+(21, 'Lane 2', 4, '13.30 - 14.00 pm'),
+(22, 'Lane 3', 4, '13.30 - 14.00 pm'),
+(23, 'Lane 4', 4, '13.30 - 14.00 pm'),
+(24, 'Lane 5', 4, '13.30 - 14.00 pm'),
+(25, 'Lane 6', 4, '13.30 - 14.00 pm'),
+(26, 'Lane 6', 4, '14.00 - 14.30 pm'),
+(27, 'Lane 5', 4, '14.00 - 14.30 pm'),
+(28, 'Lane 4', 4, '14.00 - 14.30 pm'),
+(29, 'Lane 3', 4, '14.00 - 14.30 pm'),
+(30, 'Lane 2', 4, '14.00 - 14.30 pm'),
+(31, 'Lane 1', 4, '14.00 - 14.30 pm'),
+(32, 'Lane 1', 4, '14.30 - 15.00 pm'),
+(33, 'Lane 2', 4, '14.30 - 15.00 pm'),
+(34, 'Lane 3', 4, '14.30 - 15.00 pm'),
+(35, 'Lane 4', 4, '14.30 - 15.00 pm'),
+(36, 'Lane 5', 4, '14.30 - 15.00 pm'),
+(37, 'Lane 6', 4, '14.30 - 15.00 pm'),
+(38, 'Lane 6', 4, '15.00 - 15.30 pm'),
+(39, 'Lane 5', 4, '15.00 - 15.30 pm'),
+(40, 'Lane 4', 4, '15.00 - 15.30 pm'),
+(41, 'Lane 3', 4, '15.00 - 15.30 pm'),
+(42, 'Lane 2', 4, '15.00 - 15.30 pm'),
+(43, 'Lane 1', 4, '15.00 - 15.30 pm'),
+(44, 'Lane 1', 4, '15.30 - 16.00 pm'),
+(45, 'Lane 2', 4, '15.30 - 16.00 pm'),
+(46, 'Lane 3', 4, '15.30 - 16.00 pm'),
+(47, 'Lane 4', 4, '15.30 - 16.00 pm'),
+(48, 'Lane 5', 4, '15.30 - 16.00 pm'),
+(49, 'Lane 6', 4, '15.30 - 16.00 pm'),
+(50, 'Lane 6', 4, '16.00 - 16.30 pm'),
+(51, 'Lane 5', 4, '16.00 - 16.30 pm'),
+(52, 'Lane 4', 4, '16.00 - 16.30 pm'),
+(53, 'Lane 3', 4, '16.00 - 16.30 pm'),
+(54, 'Lane 2', 4, '16.00 - 16.30 pm'),
+(55, 'Lane 1', 4, '16.00 - 16.30 pm'),
+(56, 'Lane 1', 4, '16.30 - 17.00 pm'),
+(57, 'Lane 2', 4, '16.30 - 17.00 pm'),
+(58, 'Lane 3', 4, '16.30 - 17.00 pm'),
+(59, 'Lane 4', 4, '16.30 - 17.00 pm'),
+(60, 'Lane 5', 4, '16.30 - 17.00 pm'),
+(61, 'Lane 6', 4, '16.30 - 17.00 pm'),
+(62, 'Lane 6', 4, '17.00 - 17.30 pm'),
+(63, 'Lane 5', 4, '17.00 - 17.30 pm'),
+(64, 'Lane 4', 4, '17.00 - 17.30 pm'),
+(65, 'Lane 3', 4, '17.00 - 17.30 pm'),
+(66, 'Lane 2', 4, '17.00 - 17.30 pm'),
+(67, 'Lane 1', 4, '17.00 - 17.30 pm');
 
 -- --------------------------------------------------------
 
@@ -523,6 +582,20 @@ INSERT INTO `register` (`name`, `surname`, `bilkentId`, `email`, `password`, `st
 ('Berkay', 'kara', 21524644, 'bkkaa@gmail.com', '123', 'academic'),
 ('Berkay', 'kara', 215246441, 'bkkaa@gmail.com', '123', 'academic'),
 ('berkay', 'kara', 1111, 'aa@gmail.com', '222', 'admin');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `reservepool`
+--
+
+DROP TABLE IF EXISTS `reservepool`;
+CREATE TABLE IF NOT EXISTS `reservepool` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `poolId` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
