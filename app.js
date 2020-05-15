@@ -35,7 +35,9 @@ const tournaments = require("./api/routes/tournaments");
 const enrollTournament = require("./api/routes/enrollTournament");
 const courses = require("./api/routes/course");
 const enrollCourse = require("./api/routes/enrollCourse");
-const myCourses = require("./api/routes/myCourses");
+const appointments = require("./api/routes/appointment");
+const makeAppointments = require("./api/routes/makeAppointment");
+
 
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -87,8 +89,8 @@ app.use("/tournaments",tournaments);
 app.use("/enrollTournament",enrollTournament);
 app.use("/courses",courses);
 app.use("/enrollCourse",enrollCourse);
-app.use("/mycourses",myCourses);
-
+app.use("/appointments",appointments);
+app.use("/makeAppointment",makeAppointments);
 
 //Error Handling
 app.use((req,res,next) =>{

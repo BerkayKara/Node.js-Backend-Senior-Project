@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 15 May 2020, 21:13:01
+-- Üretim Zamanı: 15 May 2020, 23:15:24
 -- Sunucu sürümü: 10.4.10-MariaDB
 -- PHP Sürümü: 7.3.12
 
@@ -200,6 +200,53 @@ INSERT INTO `announcements` (`id`, `title`, `text`, `photopath`, `startdate`, `e
 (7, 'Zumba Event', 'There will be zumba event in dormitory sports center in 04 May Monday. Therefore basketball courts will be closed in 4th May', 'C:UsersBerkay KaraDesktopBackendpublicuploads', '2020/01/01', '2020/09/05', '1'),
 (8, 'Pool is closed', 'For your health, our pool is cleaned very Monday. Therefore, our pool will be closed every monday.', 'C:UsersBerkay KaraDesktopBackendpublicuploads', '2020/01/01', '2020/09/05', '1'),
 (9, 'Sports Centers', 'Sports Centers will be open in 19 June 2020', 'aa', '2019/02/02', '2028/10/15', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `appointment`
+--
+
+DROP TABLE IF EXISTS `appointment`;
+CREATE TABLE IF NOT EXISTS `appointment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `place` varchar(45) NOT NULL,
+  `time` varchar(45) NOT NULL,
+  `available` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `appointment`
+--
+
+INSERT INTO `appointment` (`id`, `name`, `place`, `time`, `available`) VALUES
+(1, 'Ahmet Mercan', 'Main Sports Hall', '15:00 - 15:30', 1),
+(2, 'Ahmet Mercan', 'Main Sports Hall', '19:00 - 20:30', 1),
+(3, 'Ahmet Mercan', 'Main Sports Hall', '14:00 - 14:30', 1),
+(4, 'Mert Bostan', 'Main Sports Hall', '11:00 - 11:30', 1),
+(5, 'Mert Bostan', 'Main Sports Hall', '13:00 - 13:30', 1),
+(6, 'Mert Bostan', 'Main Sports Hall', '19:00 - 19:30', 1),
+(7, 'Ali Bostan', 'Dormitories Sports Hall', '20:00 - 20:30', 1),
+(8, 'Ali Bostan', 'Dormitories Sports Hall', '10:00 - 10:30', 1),
+(9, 'Ali Bostan', 'Dormitories Sports Hall', '14:00 - 14:30', 1),
+(10, 'Kübra Ay', 'Dormitories Sports Hall', '14:00 - 14:30', 1),
+(11, 'Kübra Ay', 'Dormitories Sports Hall', '17:00 - 17:30', 1),
+(12, 'Kübra Ay', 'Dormitories Sports Hall', '19:00 - 19:30', 1),
+(13, 'Kübra Ay', 'Dormitories Sports Hall', '21:00 - 21:30', 1),
+(14, 'Selin Uyar', 'Dormitories Sports Hall', '09:00 - 09:30', 1),
+(15, 'Selin Uyar', 'Dormitories Sports Hall', '12:00 - 12:30', 1),
+(16, 'Selin Uyar', 'Dormitories Sports Hall', '16:00 - 16:30', 1),
+(17, 'Selin Uyar', 'Main Sports Hall', '18:00 - 18:30', 1),
+(18, 'Selim Acar', 'Main Sports Hall', '10:00 - 10:30', 1),
+(19, 'Selim Acar', 'Main Sports Hall', '12:00 - 12:30', 1),
+(20, 'Selim Acar', 'Dormitories Sports Hall', '15:00 - 15:30', 1),
+(21, 'Selim Acar', 'Dormitories Sports Hall', '20:00 - 20:30', 1),
+(22, 'Fatma Ceylan', 'Dormitories Sports Hall', '18:00 - 18:30', 1),
+(23, 'Fatma Ceylan', 'Main Sports Hall', '09:00 - 09:30', 1),
+(24, 'Fatma Ceylan', 'Main Sports Hall', '11:00 - 11:30', 1),
+(25, 'Fatma Ceylan', 'Dormitories Sports Hall', '15:00 - 15:30', 0);
 
 -- --------------------------------------------------------
 
@@ -510,6 +557,30 @@ CREATE TABLE IF NOT EXISTS `footballmain6` (
   `team` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `myappointment`
+--
+
+DROP TABLE IF EXISTS `myappointment`;
+CREATE TABLE IF NOT EXISTS `myappointment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `appointmentId` int(11) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `place` varchar(45) NOT NULL,
+  `time` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `myappointment`
+--
+
+INSERT INTO `myappointment` (`id`, `bilkentId`, `appointmentId`, `name`, `place`, `time`) VALUES
+(1, 21502129, 25, 'Fatma Ceylan', 'Dormitories Sports Hall', '15:00 - 15:30');
 
 -- --------------------------------------------------------
 
