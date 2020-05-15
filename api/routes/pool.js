@@ -5,7 +5,7 @@ const mysqlConnection = require("../../config/db");
 
 //Get all pool lanes
 router.get('/', (req, res) => {
-    mysqlConnection.query('SELECT * FROM pool', (err, rows, fields) => {
+    mysqlConnection.query('SELECT * FROM pool where quota != 0', (err, rows, fields) => {
         if (!err)
             res.send(rows);
         else
@@ -13,7 +13,19 @@ router.get('/', (req, res) => {
     });
 });
 
-//Get a pool lane
+//Get a pool lane by id
+router.get('/:id', (req, res) => {
+    mysqlConnection.query('SELECT * FROM pool WHERE id =  ?', [req.params.id], (err, rows, fields) => {
+        if (!err)
+            res.send(rows);
+        else
+            console.log(err);
+    });
+});
+
+
+
+//Get a pool lane by lane
 router.get('/:lane', (req, res) => {
     mysqlConnection.query('SELECT * FROM pool WHERE lane =  ?', [req.params.lane], (err, rows, fields) => {
         if (!err)

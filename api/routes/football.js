@@ -5,7 +5,7 @@ const mysqlConnection = require("../../config/db");
 
 //Get all football fields
 router.get('/', (req, res) => {
-    mysqlConnection.query('SELECT * FROM football', (err, rows, fields) => {
+    mysqlConnection.query('SELECT * FROM football where available = true', (err, rows, fields) => {
         if (!err)
             res.send(rows);
         else
@@ -13,9 +13,20 @@ router.get('/', (req, res) => {
     });
 });
 
-//Get a football field
+//Get a football field by id
 router.get('/:id', (req, res) => {
-    mysqlConnection.query('SELECT * FROM football WHERE id = ?', [req.params.id], (err, rows, fields) => {
+    mysqlConnection.query('SELECT * FROM football WHERE id = ?', [req.params.field], (err, rows, fields) => {
+        if (!err)
+            res.send(rows);
+        else
+            console.log(err);
+    });
+});
+
+
+//Get a football field by field name
+router.get('/:field', (req, res) => {
+    mysqlConnection.query('SELECT * FROM football WHERE field = ?', [req.params.field], (err, rows, fields) => {
         if (!err)
             res.send(rows);
         else
@@ -37,10 +48,10 @@ router.delete('/:id', (req, res) => {
 //Insert a football field
 router.post('/', (req, res) => {
     let football = req.body;
-    var sql = "SET @id = ?; SET @field = ? ;SET @available = ?;CALL insertFootballProcedure(@id,@field,@available);";
-    mysqlConnection.query(sql, [football.id, football.field, football.available], (err, rows, fields) => {
+    var sql = "INSERT INTO `bilsportdb`.`football`(`field`,`available`,`time`)VALUES(?,?,?);";
+    mysqlConnection.query(sql, [football.field, football.available, football.time ], (err, rows, fields) => {
         if (!err)
-            res.send('Inserted football id: ' + football.id);
+            res.send('Inserted football field: ' + football.field);
         else
             console.log(err);
     });
@@ -48,10 +59,10 @@ router.post('/', (req, res) => {
 
 
 //Update an football field
-router.put('/', (req, res) => {
+router.put('/:id', (req, res) => {
     let football = req.body;
-    var sql = "SET @id = ?; SET @field = ?; SET @available = ?;CALL updateFootballProcedure(@id, @field,@available);";
-    mysqlConnection.query(sql, [football.id, football.field, football.available], (err, rows, fields) => {
+    var sql = "UPDATE `bilsportdb`.`football` SET `field` = ?,`available` = ?, `time` = ? WHERE `id` = ?;";
+    mysqlConnection.query(sql, [football.field, football.available, football.time,  req.params.id], (err, rows, fields) => {
         if (!err)
             res.send('Updated successfully');
         else

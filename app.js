@@ -8,9 +8,13 @@ const announcementRoutes = require("./api/routes/announcements");
 const eventRoutes = require("./api/routes/events");
 const statisticsRoutes = require("./api/routes/statistics");
 const poolRoutes = require("./api/routes/pool");
+const reservePool = require("./api/routes/reservePool");
 const squashRoutes = require("./api/routes/squash");
+const reserveSquash = require("./api/routes/reserveSquash");
 const tennisRoutes = require("./api/routes/tennis");
 const footballRoutes = require("./api/routes/football");
+const reserveFootball = require("./api/routes/reserveFootball");
+
 const registerRoutes = require("./api/routes/register");
 const accountRoutes = require("./api/routes/account");
 const loginRoutes = require("./api/routes/login");
@@ -29,7 +33,6 @@ const tournaments = require("./api/routes/tournaments");
 const enrollTournament = require("./api/routes/enrollTournament");
 const courses = require("./api/routes/course");
 const enrollCourse = require("./api/routes/enrollCourse");
-const reservePool = require("./api/routes/reservePool");
 
 
 app.use(morgan("dev"));
@@ -54,9 +57,15 @@ app.use("/announcements",announcementRoutes);
 app.use("/events",eventRoutes);
 app.use("/statistics",statisticsRoutes);
 app.use("/pool",poolRoutes);
+app.use("/reservePool",reservePool);
 app.use("/squash",squashRoutes);
+app.use("/reserveSquash",reserveSquash);
 app.use("/tennis",tennisRoutes);
 app.use("/football",footballRoutes);
+app.use("/reserveFootball",reserveFootball);
+
+
+
 app.use("/register",registerRoutes);
 app.use("/account",accountRoutes);
 app.use("/login",loginRoutes);
@@ -75,7 +84,6 @@ app.use("/tournaments",tournaments);
 app.use("/enrollTournament",enrollTournament);
 app.use("/courses",courses);
 app.use("/enrollCourse",enrollCourse);
-app.use("/reservePool",reservePool);
 
 
 

@@ -62,9 +62,9 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:bilkentId', (req, res) => {
     var dbName = req.body.name + req.body.campus + req.body.teamquota;
-    mysqlConnection.query("SELECT * FROM " + dbName + " WHERE id = ?", [req.params.id], (err, rows, fields) => {
+    mysqlConnection.query("SELECT * FROM " + dbName + " WHERE bilkentId = ?", [req.params.bilkentId], (err, rows, fields) => {
         if (!err)
             res.send(rows);
         else

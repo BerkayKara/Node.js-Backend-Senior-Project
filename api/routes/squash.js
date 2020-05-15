@@ -4,7 +4,7 @@ const mysqlConnection = require("../../config/db");
 
 //Get all squash courts
 router.get('/', (req, res) => {
-    mysqlConnection.query('SELECT * FROM squash', (err, rows, fields) => {
+    mysqlConnection.query('SELECT * FROM squash where available = true', (err, rows, fields) => {
         if (!err)
             res.send(rows);
         else
@@ -12,9 +12,20 @@ router.get('/', (req, res) => {
     });
 });
 
-//Get a squash court
+//Get a squash court by id
 router.get('/:id', (req, res) => {
     mysqlConnection.query('SELECT * FROM squash WHERE id = ?', [req.params.id], (err, rows, fields) => {
+        if (!err)
+            res.send(rows);
+        else
+            console.log(err);
+    });
+});
+
+
+//Get a squash court by name
+router.get('/:courtNo', (req, res) => {
+    mysqlConnection.query('SELECT * FROM squash WHERE courtNo = ?', [req.params.courtNo], (err, rows, fields) => {
         if (!err)
             res.send(rows);
         else
@@ -36,10 +47,10 @@ router.delete('/:id', (req, res) => {
 //Insert a squash court
 router.post('/', (req, res) => {
     let squash = req.body;
-    var sql = "SET @id = ?; SET @courtNo = ? ;SET @available = ?;CALL insertSquashProcedure(@id,@courtNo,@available);";
-    mysqlConnection.query(sql, [squash.id, squash.courtNo, squash.available], (err, rows, fields) => {
+    var sql = "INSERT INTO `bilsportdb`.`squash`(`courtNo`,`available`,`time`)VALUES(?,?,?)    ";
+    mysqlConnection.query(sql, [squash.courtNo, squash.available, squash.time], (err, rows, fields) => {
         if (!err)
-            res.send('Inserted squash id: ' + squash.id);
+            res.send('Inserted squash courtNo: ' + squash.courtNo);
         else
             console.log(err);
     });
@@ -49,8 +60,8 @@ router.post('/', (req, res) => {
 //Update a squash court
 router.put('/', (req, res) => {
     let squash = req.body;
-    var sql = "SET @id = ?; SET @courtNo = ?; SET @available = ?;CALL updateSquashProcedure(@id, @courtNo,@available);";
-    mysqlConnection.query(sql, [squash.id, squash.courtNo, squash.available], (err, rows, fields) => {
+    var sql = "UPDATE `bilsportdb`.`squash` SET `courtNo` = ?,`available` = ?,`time` = ? WHERE `id` = ?;";
+    mysqlConnection.query(sql, [squash.courtNo, squash.available, squash.time], (err, rows, fields) => {
         if (!err)
             res.send('Updated successfully');
         else

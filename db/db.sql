@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 15 May 2020, 09:34:50
+-- Üretim Zamanı: 15 May 2020, 10:53:57
 -- Sunucu sürümü: 10.4.10-MariaDB
 -- PHP Sürümü: 7.3.12
 
@@ -214,7 +214,14 @@ CREATE TABLE IF NOT EXISTS `badmintonmain1` (
   `email` varchar(45) NOT NULL,
   `ge` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `badmintonmain1`
+--
+
+INSERT INTO `badmintonmain1` (`id`, `bilkentId`, `email`, `ge`) VALUES
+(7, 1111, 'b111b@gmail.com', 0);
 
 -- --------------------------------------------------------
 
@@ -419,23 +426,52 @@ INSERT INTO `file` (`id`, `name`, `path`) VALUES
 
 DROP TABLE IF EXISTS `football`;
 CREATE TABLE IF NOT EXISTS `football` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `field` varchar(45) NOT NULL,
   `available` tinyint(4) NOT NULL,
+  `time` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `football`
 --
 
-INSERT INTO `football` (`id`, `field`, `available`) VALUES
-(1, 'East Campus 1', 1),
-(2, 'East Campus 2', 0),
-(3, 'Main Campus Holding', 1),
-(4, 'Main Campus Mini Field ', 1),
-(5, 'Main Campus Mini Field TESSSSST', 0),
-(6, ' TESSSSST', 0);
+INSERT INTO `football` (`id`, `field`, `available`, `time`) VALUES
+(1, 'Main Campus Mini Field (5x5)', 1, '12.30 - 13.30'),
+(2, 'Main Campus Mini Field (5x5)', 1, '13.30 - 14.30'),
+(3, 'Main Campus Mini Field (5x5)', 1, '14.30 - 15.30'),
+(4, 'Main Campus Mini Field (5x5)', 1, '15.30 - 16.30'),
+(5, 'Main Campus Mini Field (5x5)', 1, '16.30 - 17.30'),
+(6, 'Main Campus Mini Field (5x5)', 1, '18.00 - 19.00'),
+(7, 'Main Campus Mini Field (5x5)', 1, '19.00 - 20.00'),
+(8, 'Main Campus Mini Field (5x5)', 1, '20.00 - 21.00'),
+(9, 'Main Campus Mini Field (5x5)', 1, '21.00 - 22.00'),
+(10, 'Main Campus Holding Field', 1, '21.00 - 22.00'),
+(11, 'Main Campus Holding Field', 1, '20.00 - 21.00'),
+(12, 'Main Campus Holding Field', 1, '19.00 - 20.00'),
+(13, 'Main Campus Holding Field', 1, '18.00 - 19.00 p.m'),
+(14, 'Main Campus Holding Field', 1, '17.00 - 18.00 p.m'),
+(15, 'Main Campus Holding Field', 1, '16:00 - 17:00 p.m'),
+(16, 'Main Campus Holding Field', 1, '15:00 - 16:00 p.m'),
+(17, 'Main Campus Holding Field', 1, '14:00 - 15:00 p.m'),
+(18, 'East Campus Field 1', 1, '14:00 - 15:00 p.m'),
+(19, 'East Campus Field 2', 1, '14:00 - 15:00 p.m'),
+(20, 'East Campus Field 2', 1, '15:00 - 16:00 p.m'),
+(21, 'East Campus Field 2', 1, '16:00 - 17:00 p.m'),
+(22, 'East Campus Field 1', 1, '16:00 - 17:00 p.m'),
+(23, 'East Campus Field 1', 1, '15:00 - 16:00 p.m'),
+(24, 'East Campus Field 2', 1, '17:00 - 18:00 p.m'),
+(25, 'East Campus Field 1', 1, '17:00 - 18:00 p.m'),
+(26, 'East Campus Field 1', 1, '18:00 - 19:00 p.m'),
+(27, 'East Campus Field 2', 1, '18:00 - 19:00 p.m'),
+(28, 'East Campus Field 2', 1, '19:00 - 20:00 p.m'),
+(29, 'East Campus Field 1', 1, '19:00 - 20:00 p.m'),
+(30, 'East Campus Field 1', 1, '20:00 - 21:00 p.m'),
+(31, 'East Campus Field 2', 1, '20:00 - 21:00 p.m'),
+(32, 'East Campus Field 2', 1, '21:00 - 22:00 p.m'),
+(33, 'East Campus Field 1', 1, '21:00 - 22:00 p.m'),
+(34, 'Deneme', 0, '21:00 - 22:00 p.m');
 
 -- --------------------------------------------------------
 
@@ -586,6 +622,27 @@ INSERT INTO `register` (`name`, `surname`, `bilkentId`, `email`, `password`, `st
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `reservefootball`
+--
+
+DROP TABLE IF EXISTS `reservefootball`;
+CREATE TABLE IF NOT EXISTS `reservefootball` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `footballId` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `reservefootball`
+--
+
+INSERT INTO `reservefootball` (`id`, `bilkentId`, `footballId`) VALUES
+(1, 21532129, 34);
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `reservepool`
 --
 
@@ -600,26 +657,77 @@ CREATE TABLE IF NOT EXISTS `reservepool` (
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `reservesquash`
+--
+
+DROP TABLE IF EXISTS `reservesquash`;
+CREATE TABLE IF NOT EXISTS `reservesquash` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `squashId` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `reservesquash`
+--
+
+INSERT INTO `reservesquash` (`id`, `bilkentId`, `squashId`) VALUES
+(1, 21532129, 33);
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `squash`
 --
 
 DROP TABLE IF EXISTS `squash`;
 CREATE TABLE IF NOT EXISTS `squash` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `courtNo` varchar(45) NOT NULL,
   `available` tinyint(4) NOT NULL,
+  `time` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `squash`
 --
 
-INSERT INTO `squash` (`id`, `courtNo`, `available`) VALUES
-(1, 'Court 1', 1),
-(2, 'Court 2', 0),
-(3, 'Court 3', 1),
-(5, 'Berkay test 22', 1);
+INSERT INTO `squash` (`id`, `courtNo`, `available`, `time`) VALUES
+(1, 'Court 1', 1, '12.30 - 13.30 pm'),
+(2, 'Court 2', 1, '12.30 - 13.30 pm'),
+(3, 'Court 3', 1, '12.30 - 13.30 pm'),
+(4, 'Court 3', 1, '13.30 - 14.30 pm'),
+(5, 'Court 2', 1, '13.30 - 14.30 pm'),
+(6, 'Court 1', 1, '13.30 - 14.30 pm'),
+(7, 'Court 1', 1, '14.30 - 15.30 pm'),
+(8, 'Court 2', 1, '14.30 - 15.30 pm'),
+(9, 'Court 3', 1, '14.30 - 15.30 pm'),
+(10, 'Court 3', 1, '15.30 - 16.30 pm'),
+(11, 'Court 2', 1, '15.30 - 16.30 pm'),
+(12, 'Court 1', 1, '15.30 - 16.30 pm'),
+(13, 'Court 1', 1, '16.30 - 17.30 pm'),
+(14, 'Court 2', 1, '16.30 - 17.30 pm'),
+(15, 'Court 3', 1, '16.30 - 17.30 pm'),
+(16, 'Court 3', 1, '17.30 - 18.30 pm'),
+(17, 'Court 2', 1, '17.30 - 18.30 pm'),
+(18, 'Court 1', 1, '17.30 - 18.30 pm'),
+(19, 'Court 2', 1, '17.30 - 18.30 pm'),
+(20, 'Court 3', 1, '17.30 - 18.30 pm'),
+(21, 'Court 3', 1, '18.30 - 19.30 pm'),
+(22, 'Court 2', 1, '18.30 - 19.30 pm'),
+(23, 'Court 1', 1, '18.30 - 19.30 pm'),
+(24, 'Court 1', 1, '19.30 - 20.30 pm'),
+(25, 'Court 2', 1, '19.30 - 20.30 pm'),
+(26, 'Court 3', 1, '19.30 - 20.30 pm'),
+(27, 'Court 3', 1, '20.30 - 21.30 pm'),
+(28, 'Court 2', 1, '20.30 - 21.30 pm'),
+(29, 'Court 1', 1, '20.30 - 21.30 pm'),
+(30, 'Court 1', 1, '21.30 - 22.30 pm'),
+(31, 'Court 2', 1, '21.30 - 22.30 pm'),
+(32, 'Court 3', 1, '21.30 - 22.30 pm'),
+(33, 'Deneme', 0, '0000');
 
 -- --------------------------------------------------------
 
