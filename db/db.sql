@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 15 May 2020, 11:49:52
+-- Üretim Zamanı: 15 May 2020, 21:13:01
 -- Sunucu sürümü: 10.4.10-MariaDB
 -- PHP Sürümü: 7.3.12
 
@@ -295,7 +295,7 @@ CREATE TABLE IF NOT EXISTS `course` (
   `place` varchar(45) NOT NULL,
   `quota` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `course`
@@ -336,7 +336,10 @@ INSERT INTO `course` (`id`, `name`, `instructor`, `schedule`, `level`, `place`, 
 (32, 'Argentine Tango', 'Selin Kaya', 'Tuesday: 8:40 – 9:30 p.m.', 'Beginner', 'Dormitories  Sports Hall', 30),
 (33, 'Argentine Tango', 'Selin Kaya', 'Tuesday: 9:40 – 10:30 p.m', 'Intermediate', 'Dormitories  Sports Hall', 30),
 (34, 'Deneme', 'Berkay Kara', 'Tuesday: 9:40 – 10:30 p.m', 'Intermediate', 'Dormitories  Sports Hall', 0),
-(35, 'Argentine Tango', 'Selin Kaya', 'Tuesday: 9:40 – 10:30 p.m', 'Intermediate', 'Dormitories  Sports Hall', 0);
+(35, 'Argentine Tango', 'Selin Kaya', 'Tuesday: 9:40 – 10:30 p.m', 'Intermediate', 'Dormitories  Sports Hall', 0),
+(36, 'deneme ', 'Yeliz Solmaz', 'Tuesday: 7:40 – 8:30 p.m', 'Beginner', 'Dormitories  Sports Hall', 29),
+(37, 'deneme 2', 'Yeliz Solmaz', 'Tuesday: 7:40 – 8:30 p.m', 'Beginner', 'Dormitories  Sports Hall', 29),
+(38, 'deneme 3', 'Yeliz Solmaz', 'Tuesday: 7:40 – 8:30 p.m', 'Beginner', 'Dormitories  Sports Hall', 25);
 
 -- --------------------------------------------------------
 
@@ -350,7 +353,7 @@ CREATE TABLE IF NOT EXISTS `coursestaken` (
   `bilkentId` int(11) NOT NULL,
   `courseId` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `coursestaken`
@@ -362,7 +365,10 @@ INSERT INTO `coursestaken` (`id`, `bilkentId`, `courseId`) VALUES
 (3, 21502120, 1),
 (4, 21502120, 35),
 (5, 21502121, 35),
-(6, 21502122, 35);
+(6, 21502122, 35),
+(7, 21502129, 36),
+(8, 21502129, 37),
+(9, 21502129, 38);
 
 -- --------------------------------------------------------
 
@@ -504,6 +510,36 @@ CREATE TABLE IF NOT EXISTS `footballmain6` (
   `team` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `mycourse`
+--
+
+DROP TABLE IF EXISTS `mycourse`;
+CREATE TABLE IF NOT EXISTS `mycourse` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `courseId` int(11) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `instructor` varchar(45) NOT NULL,
+  `schedule` varchar(45) NOT NULL,
+  `level` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `mycourse`
+--
+
+INSERT INTO `mycourse` (`id`, `bilkentId`, `courseId`, `name`, `instructor`, `schedule`, `level`) VALUES
+(1, 21502129, 38, 'deneme 3', 'Yeliz Solmaz', 'Tuesday: 7:40 – 8:30 p.m', 'Beginner'),
+(2, 21601642, 38, 'deneme 3', 'Yeliz Solmaz', 'Tuesday: 7:40 – 8:30 p.m', 'Beginner'),
+(3, 21400210, 38, 'deneme 3', 'Yeliz Solmaz', 'Tuesday: 7:40 – 8:30 p.m', 'Beginner'),
+(4, 21500210, 38, 'deneme 3', 'Yeliz Solmaz', 'Tuesday: 7:40 – 8:30 p.m', 'Beginner'),
+(5, 21600210, 38, 'deneme 3', 'Yeliz Solmaz', 'Tuesday: 7:40 – 8:30 p.m', 'Beginner'),
+(6, 21300210, 38, 'deneme 3', 'Yeliz Solmaz', 'Tuesday: 7:40 – 8:30 p.m', 'Beginner');
 
 -- --------------------------------------------------------
 

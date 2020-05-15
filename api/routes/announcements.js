@@ -59,7 +59,7 @@ router.get('/', (req, res, next) => {
     console.log(current_datetime);
     let formatted_date = current_datetime.getDate() + "-" + "0" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear();
     console.log(formatted_date);
-    mysqlConnection.query('SELECT * FROM announcements', (err, rows, fields) => {
+    mysqlConnection.query('SELECT * FROM announcements order by id desc', (err, rows, fields) => {
         if (!err){
             for (var i = 0; i < rows.length; i++) {
                 var now = formatted_date;
@@ -72,7 +72,7 @@ router.get('/', (req, res, next) => {
             console.log(err);
     });
     //getting announcements which will be displayed (display 1)
-    mysqlConnection.query('SELECT * FROM announcements where display = 1', (err, rows, fields) => {
+    mysqlConnection.query('SELECT * FROM announcements where display = 1 order by id desc', (err, rows, fields) => {
         if (!err){
             res.send(rows);
         }   

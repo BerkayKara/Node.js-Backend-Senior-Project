@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const mysqlConnection = require("../../config/db");
 
-function isTaken(bilkentId,courseId){
+function isTaken(bilkentId,id){
     return new Promise((resolve, reject) => {
-        var sql = "SELECT * FROM `bilsportdb`.`coursestaken` WHERE `bilkentId` = ? AND `courseId` = ?;";
-        mysqlConnection.query(sql, [bilkentId,courseId], (err, rows, fields) => {
+        var sql = "SELECT * FROM `bilsportdb`.`mycourse` WHERE `bilkentId` = ? AND `courseId` = ?;";
+        mysqlConnection.query(sql, [bilkentId,id], (err, rows, fields) => {
             if (rows.length > 0){
                 reject(-1);  
             }
@@ -16,36 +16,41 @@ function isTaken(bilkentId,courseId){
     });
 }
 
-
-function checkQuota(courseId) {
-    var quota ;
+function checkQuota(id) {
     return new Promise((resolve, reject) => {
-        var sql = "SELECT * FROM `bilsportdb`.`course` WHERE `id` = ?;";
-        mysqlConnection.query(sql, [courseId], (err, rows, fields) => {
-            if (rows[0].quota > 0){
-                quota = rows[0].quota - 1;
+        var q;
+        var sql1 = "SELECT quota FROM `bilsportdb`.`course` where id = ?;";
+        mysqlConnection.query(sql1, [id], (err, rows, fields) => {
+            if (!err){
+                q = rows[0].quota;
+                console.log(q);
+                q = q - 1;
                 var sql = "UPDATE `bilsportdb`.`course` SET `quota` = ? WHERE `id` = ?;";
-                mysqlConnection.query(sql, [quota, courseId], (err, rows, fields) => {
-                    if (!err){
-                        resolve(10);
-                    }
-                    else{
-                        console.log(err);
-                        reject(-1);
-                    }
+                mysqlConnection.query(sql, [q, id], (err, rows, fields) => {
+                if (!err){
+                    resolve(10);
+                }
+                else{
+                    console.log(err);
+                    reject(-1);
+                }
                 });
             }
             else{
-                reject(-1);
+                console.log(err);
             }
         });
+
+        
+            
+            
     });
 }
 
 
 router.get('/', (req, res) => {
     var dbName = req.body.name + req.body.campus + req.body.teamquota;
-    mysqlConnection.query("SELECT * FROM coursestaken", (err, rows, fields) => {
+    mysqlConnection.query("SELECT * FROM mycourse", (err, rows, fields) => {
         if (!err)
             res.send(rows);
         else
@@ -54,8 +59,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:bilkentId', (req, res) => {
-    var dbName = req.body.name + req.body.campus + req.body.teamquota;
-    mysqlConnection.query("SELECT * FROM coursestaken WHERE bilkentId = ?", [req.params.bilkentId], (err, rows, fields) => {
+    mysqlConnection.query("SELECT * FROM mycourse WHERE bilkentId = ?", [req.params.bilkentId], (err, rows, fields) => {
         if (!err)
             res.send(rows);
         else
@@ -64,8 +68,7 @@ router.get('/:bilkentId', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-    var dbName = req.body.name + req.body.campus;
-    mysqlConnection.query("DELETE FROM coursestaken  WHERE id = ?", [req.params.id], (err, rows, fields) => {
+    mysqlConnection.query("DELETE FROM mycourse WHERE id = ?", [req.params.id], (err, rows, fields) => {
         if (!err)
             res.send('Deleted successfully');
         else
@@ -76,12 +79,12 @@ router.delete('/:id', (req, res) => {
 router.post('/', (req, res) => {
     let participant = req.body;
     let checkTaken = isTaken(participant.bilkentId, participant.courseId);
-    let quotaCheck = checkQuota(participant.courseId);
+    let quotaCheck = checkQuota(participant.courseId,participant.quota);
 
     quotaCheck.then((value) => {
         checkTaken.then((value) => {
-            var sql = "INSERT INTO `bilsportdb`.`coursestaken`(`bilkentId`, `courseId`) VALUES  (?,?);";
-            mysqlConnection.query(sql, [participant.bilkentId, participant.courseId], (err, rows, fields) => {
+            var sql = "INSERT INTO `bilsportdb`.`mycourse`(`bilkentId`,`courseId`,`name`,`instructor`,`schedule`,`level`)VALUES(?,?,?,?,?,?);";
+            mysqlConnection.query(sql, [participant.bilkentId,participant.courseId, participant.name,participant.instructor,participant.schedule,participant.level], (err, rows, fields) => {
                 if (!err)
                      res.send('Inserted participant id: ' + participant.bilkentId);
                 else
