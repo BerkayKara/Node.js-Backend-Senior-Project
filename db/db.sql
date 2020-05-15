@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 15 May 2020, 10:53:57
+-- Üretim Zamanı: 15 May 2020, 11:49:52
 -- Sunucu sürümü: 10.4.10-MariaDB
 -- PHP Sürümü: 7.3.12
 
@@ -678,6 +678,27 @@ INSERT INTO `reservesquash` (`id`, `bilkentId`, `squashId`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `reservetennis`
+--
+
+DROP TABLE IF EXISTS `reservetennis`;
+CREATE TABLE IF NOT EXISTS `reservetennis` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `tennisId` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `reservetennis`
+--
+
+INSERT INTO `reservetennis` (`id`, `bilkentId`, `tennisId`) VALUES
+(1, 21532129, 27);
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `squash`
 --
 
@@ -782,21 +803,44 @@ CREATE TABLE IF NOT EXISTS `tabletennismain1` (
 
 DROP TABLE IF EXISTS `tennis`;
 CREATE TABLE IF NOT EXISTS `tennis` (
-  `id` int(11) NOT NULL,
-  `court` varchar(45) NOT NULL,
-  `campus` varchar(45) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `courtNo` varchar(45) NOT NULL,
+  `available` tinyint(4) NOT NULL,
+  `time` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `tennis`
 --
 
-INSERT INTO `tennis` (`id`, `court`, `campus`) VALUES
-(1, 'Court 1', 'Main Campus'),
-(2, 'Court 2', 'Main Campus'),
-(3, 'Court 3', 'Main Campus'),
-(4, 'Court 4', 'East Campus');
+INSERT INTO `tennis` (`id`, `courtNo`, `available`, `time`) VALUES
+(1, 'Main Campus Court 1', 1, '13.00 - 14.00 pm'),
+(3, 'Main Campus Court 1', 1, '14.00 - 15.00 pm'),
+(4, 'Main Campus Court 2', 1, '14.00 - 15.00 pm'),
+(5, 'Main Campus Court 2', 1, '13.00 - 14.00 pm'),
+(6, 'Main Campus Court 3', 1, '13.00 - 14.00 pm'),
+(7, 'Main Campus Court 3', 1, '14.00 - 15.00 pm'),
+(8, 'Main Campus Court 3', 1, '12.00 - 13.00 pm'),
+(9, 'East Campus Court 1', 1, '12.00 - 13.00 pm'),
+(10, 'East Campus Court 1', 1, '14.00 - 15.00 pm'),
+(11, 'East Campus Court 1', 1, '15.00 - 16.00 pm'),
+(12, 'East Campus Court 1', 1, '16.00 - 17.00 pm'),
+(13, 'East Campus Court 1', 1, '17.00 - 18.00 pm'),
+(14, 'East Campus Court 1', 1, '18:00 - 19:00 pm'),
+(15, 'Main Campus Court 1', 1, '18:00 - 19:00 pm'),
+(16, 'Main Campus Court 2', 1, '18:00 - 19:00 pm'),
+(17, 'Main Campus Court 3', 1, '18:00 - 19:00 pm'),
+(18, 'Main Campus Court 3', 1, '17:00 - 18:00 pm'),
+(19, 'Main Campus Court 2', 1, '17:00 - 18:00 pm'),
+(20, 'Main Campus Court 1', 1, '17:00 - 18:00 pm'),
+(21, 'Main Campus Court 1', 1, '16:00 - 17:00 pm'),
+(22, 'Main Campus Court 2', 1, '16:00 - 17:00 pm'),
+(23, 'Main Campus Court 3', 1, '16:00 - 17:00 pm'),
+(24, 'Main Campus Court 3', 1, '15:00 - 16:00 pm'),
+(25, 'Main Campus Court 2', 1, '15:00 - 16:00 pm'),
+(26, 'Main Campus Court 1', 1, '15:00 - 16:00 pm'),
+(27, 'Deneme', 0, '14:00 - 16:00 pm');
 
 -- --------------------------------------------------------
 

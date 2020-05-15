@@ -7,11 +7,13 @@ const bodyParser = require('body-parser');
 const announcementRoutes = require("./api/routes/announcements");
 const eventRoutes = require("./api/routes/events");
 const statisticsRoutes = require("./api/routes/statistics");
+
 const poolRoutes = require("./api/routes/pool");
 const reservePool = require("./api/routes/reservePool");
 const squashRoutes = require("./api/routes/squash");
 const reserveSquash = require("./api/routes/reserveSquash");
 const tennisRoutes = require("./api/routes/tennis");
+const reserveTennis = require("./api/routes/reserveTennis");
 const footballRoutes = require("./api/routes/football");
 const reserveFootball = require("./api/routes/reserveFootball");
 
@@ -61,8 +63,9 @@ app.use("/reservePool",reservePool);
 app.use("/squash",squashRoutes);
 app.use("/reserveSquash",reserveSquash);
 app.use("/tennis",tennisRoutes);
-app.use("/football",footballRoutes);
 app.use("/reserveFootball",reserveFootball);
+app.use("/football",footballRoutes);
+app.use("/reserveTennis",reserveTennis);
 
 
 
