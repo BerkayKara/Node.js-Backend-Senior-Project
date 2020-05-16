@@ -13,15 +13,7 @@ router.get('/', (req, res) => {
     });
 });
 
-//Get a football field by id
-router.get('/:id', (req, res) => {
-    mysqlConnection.query('SELECT * FROM football WHERE id = ?', [req.params.field], (err, rows, fields) => {
-        if (!err)
-            res.send(rows);
-        else
-            console.log(err);
-    });
-});
+
 
 
 //Get a football field by field name

@@ -12,15 +12,7 @@ router.get('/', (req, res) => {
     });
 });
 
-//Get a tennis court
-router.get('/:id', (req, res) => {
-    mysqlConnection.query('SELECT * FROM tennis WHERE id = ?', [req.params.id], (err, rows, fields) => {
-        if (!err)
-            res.send(rows);
-        else
-            console.log(err);
-    });
-});
+
 
 //Get a tennis court by court no
 router.get('/:courtNo', (req, res) => {

@@ -37,6 +37,7 @@ const courses = require("./api/routes/course");
 const enrollCourse = require("./api/routes/enrollCourse");
 const appointments = require("./api/routes/appointment");
 const makeAppointments = require("./api/routes/makeAppointment");
+const payments = require("./api/routes/payment");
 
 
 app.use(morgan("dev"));
@@ -91,6 +92,7 @@ app.use("/courses",courses);
 app.use("/enrollCourse",enrollCourse);
 app.use("/appointments",appointments);
 app.use("/makeAppointment",makeAppointments);
+app.use("/payments",payments);
 
 //Error Handling
 app.use((req,res,next) =>{

@@ -13,16 +13,6 @@ router.get('/', (req, res) => {
     });
 });
 
-//Get a pool lane by id
-router.get('/:id', (req, res) => {
-    mysqlConnection.query('SELECT * FROM pool WHERE id =  ?', [req.params.id], (err, rows, fields) => {
-        if (!err)
-            res.send(rows);
-        else
-            console.log(err);
-    });
-});
-
 
 
 //Get a pool lane by lane

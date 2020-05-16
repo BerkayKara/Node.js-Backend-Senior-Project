@@ -12,15 +12,7 @@ router.get('/', (req, res) => {
     });
 });
 
-//Get a squash court by id
-router.get('/:id', (req, res) => {
-    mysqlConnection.query('SELECT * FROM squash WHERE id = ?', [req.params.id], (err, rows, fields) => {
-        if (!err)
-            res.send(rows);
-        else
-            console.log(err);
-    });
-});
+
 
 
 //Get a squash court by name
