@@ -5,7 +5,7 @@ const mysqlConnection = require("../../config/db");
 
 //Get a statistic
 router.get('/:id', (req, res) => {
-    mysqlConnection.query('SELECT * FROM statistics WHERE id = ?', [req.params.id], (err, rows, fields) => {
+    mysqlConnection.query('SELECT * FROM statistics WHERE id = ? order by id desc', [req.params.id], (err, rows, fields) => {
         if (!err)
             res.send(rows);
         else

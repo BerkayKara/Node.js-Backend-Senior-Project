@@ -40,10 +40,27 @@ function checkQuota(id) {
                 console.log(err);
             }
         });
+    });
+}
 
-        
-            
-            
+
+function checkStatus(bilkentId){
+    return new Promise((resolve, reject) => {
+        var q;
+        var sql1 = "SELECT status FROM `bilsportdb`.`account` where bilkentId = ?;";
+        mysqlConnection.query(sql1, [bilkentId], (err, rows, fields) => {
+            if (!err){
+                if(rows[0].status == "student"){
+                    resolve(10);
+                }
+                else{
+                    reject(-1);                   
+                }
+            }
+            else{
+                console.log(err);
+            }
+        });
     });
 }
 
@@ -80,22 +97,37 @@ router.post('/', (req, res) => {
     let participant = req.body;
     let checkTaken = isTaken(participant.bilkentId, participant.courseId);
     let quotaCheck = checkQuota(participant.courseId,participant.quota);
+    let statusCheck = checkStatus(participant.bilkentId);
 
-    quotaCheck.then((value) => {
-        checkTaken.then((value) => {
-            var sql = "INSERT INTO `bilsportdb`.`mycourse`(`bilkentId`,`courseId`,`name`,`instructor`,`schedule`,`level`)VALUES(?,?,?,?,?,?);";
-            mysqlConnection.query(sql, [participant.bilkentId,participant.courseId, participant.name,participant.instructor,participant.schedule,participant.level], (err, rows, fields) => {
-                if (!err)
-                     res.send('Inserted participant id: ' + participant.bilkentId);
-                else
-                    console.log(err);
+    statusCheck.then((value) => {
+        quotaCheck.then((value) => {
+            checkTaken.then((value) => {
+                var sql = "INSERT INTO `bilsportdb`.`mycourse`(`bilkentId`,`courseId`,`name`,`instructor`,`schedule`,`level`)VALUES(?,?,?,?,?,?);";
+                mysqlConnection.query(sql, [participant.bilkentId,participant.courseId, participant.name,participant.instructor,participant.schedule,participant.level], (err, rows, fields) => {
+                    if (!err)
+                         res.send('Inserted participant id: ' + participant.bilkentId);
+                    else
+                        console.log(err);
+                });
+            }).catch((error) => {
+                res.send("You have already taken this course");
             });
         }).catch((error) => {
-            res.send("You have already taken this course");
+            res.send("Course Quota is full");
         });
-    }).catch((error) => {
-        res.send("Course Quota is full");
-    });
+
+    }).catch((value)=>{
+        var sql = "INSERT INTO `bilsportdb`.`payments`(`bilkentId`,`paymentId`,`courseId`) VALUES(?,?,?);";
+        mysqlConnection.query(sql, [participant.bilkentId, participant.paymentId, participant.courseId], (err, rows, fields) => {
+            if (!err){
+                res.send("Your Payment is Successful")
+            }
+            else{
+                console.log(err);
+            }
+        });
+
+    });  
 });
 
 module.exports = router;

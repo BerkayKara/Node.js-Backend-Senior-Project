@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 15 May 2020, 23:15:24
+-- Üretim Zamanı: 16 May 2020, 23:12:46
 -- Sunucu sürümü: 10.4.10-MariaDB
 -- PHP Sürümü: 7.3.12
 
@@ -166,7 +166,8 @@ INSERT INTO `account` (`name`, `surname`, `bilkentId`, `email`, `password`, `sta
 ('Berkay', 'Kara', 21502129, 'berkay.kara@ug.bilkent.edu.tr', '123', 'student'),
 ('Ahsen', 'Küçükdurmaz', 123, 'admin@bilkent.edu.tr', '123', 'admin'),
 ('Ali Alper', 'Sakar', 21401897, 'alper.sakar@bilkent.edu.tr', '123', 'academic'),
-('Ahmet', 'Çakar', 111, 'abc@abc.com', '111', 'academic');
+('Ahmet', 'Çakar', 111, 'abc@abc.com', '111', 'academic'),
+('Berkay', 'kara', 21502121, 'berkay@alumni.bilkent.edu.tr', '123', 'alumni');
 
 -- --------------------------------------------------------
 
@@ -386,7 +387,7 @@ INSERT INTO `course` (`id`, `name`, `instructor`, `schedule`, `level`, `place`, 
 (35, 'Argentine Tango', 'Selin Kaya', 'Tuesday: 9:40 – 10:30 p.m', 'Intermediate', 'Dormitories  Sports Hall', 0),
 (36, 'deneme ', 'Yeliz Solmaz', 'Tuesday: 7:40 – 8:30 p.m', 'Beginner', 'Dormitories  Sports Hall', 29),
 (37, 'deneme 2', 'Yeliz Solmaz', 'Tuesday: 7:40 – 8:30 p.m', 'Beginner', 'Dormitories  Sports Hall', 29),
-(38, 'deneme 3', 'Yeliz Solmaz', 'Tuesday: 7:40 – 8:30 p.m', 'Beginner', 'Dormitories  Sports Hall', 25);
+(38, 'deneme 3', 'Yeliz Solmaz', 'Tuesday: 7:40 – 8:30 p.m', 'Beginner', 'Dormitories  Sports Hall', 23);
 
 -- --------------------------------------------------------
 
@@ -615,6 +616,28 @@ INSERT INTO `mycourse` (`id`, `bilkentId`, `courseId`, `name`, `instructor`, `sc
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `payments`
+--
+
+DROP TABLE IF EXISTS `payments`;
+CREATE TABLE IF NOT EXISTS `payments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bilkentId` int(11) NOT NULL,
+  `paymentId` int(30) NOT NULL,
+  `courseId` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Tablo döküm verisi `payments`
+--
+
+INSERT INTO `payments` (`id`, `bilkentId`, `paymentId`, `courseId`) VALUES
+(1, 21502121, 221122, 38);
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `pool`
 --
 
@@ -724,7 +747,8 @@ CREATE TABLE IF NOT EXISTS `register` (
 INSERT INTO `register` (`name`, `surname`, `bilkentId`, `email`, `password`, `status`) VALUES
 ('Berkay', 'kara', 21524644, 'bkkaa@gmail.com', '123', 'academic'),
 ('Berkay', 'kara', 215246441, 'bkkaa@gmail.com', '123', 'academic'),
-('berkay', 'kara', 1111, 'aa@gmail.com', '222', 'admin');
+('berkay', 'kara', 1111, 'aa@gmail.com', '222', 'admin'),
+('Berkay', 'kara', 21502121, 'berkay@alumni.bilkent.edu.tr', '123', 'alumni');
 
 -- --------------------------------------------------------
 

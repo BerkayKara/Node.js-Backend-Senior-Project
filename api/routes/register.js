@@ -24,10 +24,30 @@ router.get('/:id', (req, res) => {
     });
 });
 
+
+function findStatus(email){
+
+    var splittedEmail = email.split('@');
+    var emailEnd = splittedEmail[1];
+
+    if (emailEnd == "ug.bilkent.edu.tr"){
+        return "student";
+    }
+    else if (emailEnd == "alumni.bilkent.edu.tr"){
+        return "alumni";
+    }
+    else{
+        return "staff";
+    }
+
+}
+
+
 //Insert an unregistered account (when user clicks register button) 
 router.post('/', (req, res) => {
+    var status = findStatus(req.body.email); 
     var sql = "SET @name = ?; SET @surname = ?; SET @bilkentId = ?; SET @email = ?; SET @password = ?; SET @status = ?; CALL insertRegisterProcedure(@name, @surname, @bilkentId, @email, @password, @status);";
-    mysqlConnection.query(sql, [req.body.name, req.body.surname, req.body.bilkentId, req.body.email, req.body.password, req.body.status], (err, rows, fields) => {
+    mysqlConnection.query(sql, [req.body.name, req.body.surname, req.body.bilkentId, req.body.email, req.body.password, status], (err, rows, fields) => {
         if (!err)
             res.send('Inserted unregistered account bilkent id: ' + req.body.bilkentId);
         else
