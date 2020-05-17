@@ -38,7 +38,7 @@ const enrollCourse = require("./api/routes/enrollCourse");
 const appointments = require("./api/routes/appointment");
 const makeAppointments = require("./api/routes/makeAppointment");
 const payments = require("./api/routes/payment");
-
+const sportCourts = require("./api/routes/sportCourts");
 
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -57,6 +57,10 @@ app.use((req,res,next) => {
     } next();
 
 });
+
+
+app.use(express.static("public/uploads"));
+app.use("/sportcourts",sportCourts);
 
 app.use("/announcements",announcementRoutes);
 app.use("/events",eventRoutes);
