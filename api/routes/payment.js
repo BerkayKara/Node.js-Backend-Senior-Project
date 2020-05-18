@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const mysqlConnection = require("../../config/db");
 
-
 router.get('/', (req, res) => {
     mysqlConnection.query('SELECT * FROM payments', (err, rows, fields) => {
         if (!err)
@@ -21,7 +20,6 @@ router.get('/:bilkentId', (req, res) => {
     });
 });
 
-
 router.delete('/:id', (req, res) => {
     mysqlConnection.query('DELETE FROM payments WHERE id = ?', [req.params.id], (err, rows, fields) => {
         if (!err)
@@ -30,7 +28,6 @@ router.delete('/:id', (req, res) => {
             console.log(err);
     });
 });
-
 
 router.put('/:id', (req, res) => {
     let payment = req.body;
@@ -42,7 +39,6 @@ router.put('/:id', (req, res) => {
             console.log(err);
     });
 });
-
 
 
 module.exports = router;

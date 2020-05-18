@@ -31,8 +31,23 @@ function checkQuota(id) {
     });
 }
 
+function dropAppointment(id) {
+    return new Promise((resolve, reject) => {
+        var sql = "UPDATE `bilsportdb`.`appointment` SET `available` = ? WHERE `id` = ?;";
+        mysqlConnection.query(sql, [true, id], (err, rows, fields) => {
+            if (!err){
+                resolve(10);
+            }
+            else{
+                console.log(err);
+                reject(-1);
+            }
+            });
+    });
+}
+
+
 router.get('/', (req, res) => {
-    var dbName = req.body.name + req.body.campus + req.body.teamquota;
     mysqlConnection.query("SELECT * FROM myappointment", (err, rows, fields) => {
         if (!err)
             res.send(rows);
@@ -51,12 +66,17 @@ router.get('/:bilkentId', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-    mysqlConnection.query("DELETE FROM myappointment WHERE id = ?", [req.params.id], (err, rows, fields) => {
-        if (!err)
-            res.send('Deleted successfully');
-        else
-            console.log(err);
-    });
+    let drop = dropAppointment(req.params.id);
+    drop.then((value)=>{
+        mysqlConnection.query("DELETE FROM myappointment WHERE appointmentId = ?", [req.params.id], (err, rows, fields) => {
+            if (!err)
+                res.send('Deleted successfully');
+            else
+                console.log(err);
+        });
+    }).catch((value)=>{
+        res.send("Error");
+    });  
 });
 
 router.post('/', (req, res) => {

@@ -7,7 +7,7 @@ const mysqlConnection = require("../../config/db");
 const storage  = multer.diskStorage({//public te store et bütün fotoları
     destination: './public/uploads/',
     filename: function(req, file, cb){
-        cb(null,file.originalname + '-' + path.extname(file.originalname));
+        cb(null,file.originalname);
     }
 });
 
@@ -40,10 +40,33 @@ router.post('/', upload, (req,res,err) => {
     });
 });
 
-router.get('/:name', (req, res) => {
+router.get('/:name', (req, res, next) => {
+
+    // var options = {
+    //     root: path.join(__dirname,'../../public/uploads'),
+    //     dotfiles: 'deny',
+    //     headers: {
+    //       'x-timestamp': Date.now(),
+    //       'x-sent': true
+    //     }
+    //   }
+    //   console.log(options.root);
+    //   var fileName = req.params.name
+    //   res.download(fileName, options, function (err) {
+    //     if (err) {
+    //       next(err);
+    //     } else {
+    //       console.log('Sent:', fileName)
+    //     }
+    //   })
+
+
+
+
     mysqlConnection.query('SELECT path FROM file WHERE name = ?', [req.params.name], (err, rows, fields) => {
         if (!err){
-            res.download(rows[0].path);
+            console.log(rows);
+            res.download("C:/Users/Berkay Kara/Desktop/Backend/public/uploads/sportcenter.jpg");
         }  
         else
             console.log(err);

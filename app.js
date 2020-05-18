@@ -41,8 +41,9 @@ const payments = require("./api/routes/payment");
 const sportCourts = require("./api/routes/sportCourts");
 
 app.use(morgan("dev"));
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+
+app.use(bodyParser.json({limit: '1000kb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '1000kb', extended: true}))
 
 //Solution for CORS Policy Error
 app.use((req,res,next) => {
@@ -57,7 +58,6 @@ app.use((req,res,next) => {
     } next();
 
 });
-
 
 app.use(express.static("public/uploads"));
 app.use("/sportcourts",sportCourts);

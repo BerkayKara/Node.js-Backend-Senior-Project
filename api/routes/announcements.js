@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const mysqlConnection = require("../../config/db");
+const imageToBase64 = require('image-to-base64');
+
 
 function dateCompare(id,today,start,end){
 
@@ -109,27 +111,54 @@ router.post('/', (req, res) => {
     let announcement = {
         title: req.body.title,
         text: req.body.text,
-        photopath: req.body.photopath,
+        photoname: req.body.photoname,
         startdate: req.body.startdate,
         enddate: req.body.enddate,
     };
     console.log(announcement);
-    let display = 0;
-    var sql = "INSERT INTO `bilsportdb`.`announcements`(`title`, `text`, `photopath`, `startdate`, `enddate`, `display`)VALUES  (?,?,?,?,?,?);";
-    mysqlConnection.query(sql, [announcement.title, announcement.text, announcement.photopath, announcement.startdate, announcement.enddate, display], (err, rows, fields) => {
+    var base64 ;
+    var sql = "SELECT * from file where name = ?";
+    mysqlConnection.query(sql, [announcement.photoname], (err, rows, fields) => {
         if (!err)
-            res.send('Announcement Inserted');
+            imageToBase64("C:/Users/Berkay Kara/Desktop/Backend/" + rows[0].path) // you can also to use url
+            .then(
+                (response) => {
+                    console.log("C:/Users/Berkay Kara/Desktop/Backend/" + rows[0].path);
+                    base64 = response; //cGF0aC90by9maWxlLmpwZw==
+                    let display = 0;
+                    //console.log(base64);
+                    base64 = base64.replace(new RegExp(' ', 'g'), '+');
+
+                    var sql = "INSERT INTO `bilsportdb`.`announcements`(`title`, `text`, `photoname`, `startdate`, `enddate`, `display`,`base64`)VALUES  (?,?,?,?,?,?,?);";
+                    mysqlConnection.query(sql, [announcement.title, announcement.text, announcement.photoname, announcement.startdate, announcement.enddate, display,base64], (err, rows, fields) => {
+                        if (!err){
+                            console.log("ok");
+                            res.sendStatus(200);
+                        }                        
+                        else{
+                            console.log(" not ok");
+                        }
+                    });
+                }
+            )
+            .catch(
+                (error) => {
+                    console.log(error); //Exepection error....
+                }
+            )
         else
             console.log(err);
     });
+
+    
 });
 
 //Update an announcement
 router.put('/', (req, res) => {
     let announcement = req.body;
     let display = 0;
-    var sql = "SET @id = ?; SET @title = ?; SET @text = ?; SET @photopath = ?; SET @startdate = ?; SET @enddate = ?; SET @display = ?; CALL updateAnnouncementProcedure(@id,@title, @text, @photopath, @startdate, @enddate, @display);";
-    mysqlConnection.query(sql, [announcement.id, announcement.title, announcement.text, announcement.photopath, announcement.startdate, announcement.enddate, display], (err, rows, fields) => {
+    var sql = "SET @id = ?; SET @title = ?; SET @text = ?; SET @photoname = ?; SET @startdate = ?; SET @enddate = ?; SET @display = ?; CALL updateAnnouncementProcedure(@id,@title, @text, @photoname, @startdate, @enddate, @display);";
+    mysqlConnection.query(sql, [announcement.id, announcement.title, announcement.text, announcement.photoname, announcement.startdate, announcement.enddate, display], (err, rows, fields) => {
         if (!err)
             res.send('Updated successfully');
         else
