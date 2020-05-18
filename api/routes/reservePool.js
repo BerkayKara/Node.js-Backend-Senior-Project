@@ -85,7 +85,7 @@ router.post('/', (req, res) => {
                     console.log(err);
             });
         }).catch((error) => {
-            res.send("You have already taken this pool reservation");
+            res.sendStatus(403)
         });
     }).catch((error) => {
         res.send("Quota is full");

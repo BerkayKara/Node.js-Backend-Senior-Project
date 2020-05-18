@@ -85,10 +85,10 @@ router.post('/', (req, res) => {
                     console.log(err);
             });
         }).catch((error) => {
-            res.send("You have already taken this squash reservation");
+            res.sendStatus(403)
         });
     }).catch((error) => {
-        res.send("Court is full");
+        res.sendStatus(403)
     });
 });
 

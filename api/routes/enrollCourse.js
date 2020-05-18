@@ -110,10 +110,10 @@ router.post('/', (req, res) => {
                         console.log(err);
                 });
             }).catch((error) => {
-                res.send("You have already taken this course");
+                res.sendStatus(403)
             });
         }).catch((error) => {
-            res.send("Course Quota is full");
+            res.sendStatus(403)
         });
 
     }).catch((value)=>{

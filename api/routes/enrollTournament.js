@@ -100,11 +100,11 @@ router.post('/', (req, res) => {
                 });
             }).catch((error) => {
                 console.log(idCheck);
-                res.send("This Bilkent Id exists.");
+                res.sendStatus(403)
             });
         }).catch((error) => {
             console.log(idCheck);
-            res.send("This E-mail exists.");
+            res.sendStatus(403)
         });    
 
     }

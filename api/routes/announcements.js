@@ -136,14 +136,15 @@ router.post('/', (req, res) => {
                             res.sendStatus(200);
                         }                        
                         else{
-                            console.log(" not ok");
+                            res.sendStatus(403);
                         }
                     });
                 }
             )
             .catch(
-                (error) => {
+                (error) => {                    
                     console.log(error); //Exepection error....
+                    res.sendStatus(403)
                 }
             )
         else
