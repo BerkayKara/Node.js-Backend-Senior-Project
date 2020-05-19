@@ -72,8 +72,8 @@ router.get('/:name', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
-        mysqlConnection.query('DELETE FROM tournaments WHERE id = ?', [req.params.id], (err, rows, fields) => {
+router.delete('/', (req, res) => {
+        mysqlConnection.query('DELETE FROM tournaments WHERE id = ?', [req.body.id], (err, rows, fields) => {
             if (!err)
                 res.send('Deleted successfully');
             else
@@ -104,10 +104,10 @@ router.post('/', (req, res) => {
     });    
 });
 
-router.put('/:id', (req, res) => {
+router.put('/', (req, res) => {
     let tournament = req.body;
     var sql = "UPDATE `bilsportdb`.`tournaments` SET `name` = ?, `campus` = ?, `teamquota` = ? WHERE `id` = ?;";
-    mysqlConnection.query(sql, [tournament.name, tournament.campus, tournament.teamquota, req.params.id], (err, rows, fields) => {
+    mysqlConnection.query(sql, [tournament.name, tournament.campus, tournament.teamquota, req.body.id], (err, rows, fields) => {
         if (!err)
             res.send('Updated successfully');
         else

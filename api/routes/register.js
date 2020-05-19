@@ -25,6 +25,18 @@ router.get('/:id', (req, res) => {
 });
 
 
+//Delete an unregistered account
+router.delete('/', (req, res) => {
+    console.log(req.body);
+    mysqlConnection.query('DELETE FROM `bilsportdb`.`register` WHERE bilkentId = ?;', [req.body.id], (err, rows, fields) => {
+        if (!err)
+            res.send("Deleted succesfully");
+        else
+            console.log(err);
+    });
+});
+
+
 function findStatus(email){
 
     var splittedEmail = email.split('@');

@@ -39,6 +39,9 @@ const appointments = require("./api/routes/appointment");
 const makeAppointments = require("./api/routes/makeAppointment");
 const payments = require("./api/routes/payment");
 const sportCourts = require("./api/routes/sportCourts");
+const getFileNames = require("./api/routes/file");
+
+
 
 app.use(morgan("dev"));
 
@@ -74,7 +77,7 @@ app.use("/reserveFootball",reserveFootball);
 app.use("/football",footballRoutes);
 app.use("/reserveTennis",reserveTennis);
 
-
+app.use("/files",getFileNames);
 
 app.use("/register",registerRoutes);
 app.use("/account",accountRoutes);

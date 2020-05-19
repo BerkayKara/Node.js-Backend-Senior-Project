@@ -24,9 +24,9 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
-    console.log(req.params);
-    mysqlConnection.query('DELETE FROM appointment WHERE id = ?', [req.params.id], (err, rows, fields) => {
+router.delete('/', (req, res) => {
+    console.log(req.body);
+    mysqlConnection.query('DELETE FROM appointment WHERE id = ?', [req.body.id], (err, rows, fields) => {
         if (!err)
             res.send('Deleted successfully');
         else

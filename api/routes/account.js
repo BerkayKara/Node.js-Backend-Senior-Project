@@ -3,6 +3,23 @@ const router = express.Router();
 const mysqlConnection = require("../../config/db");
 
 
+
+function deleteRegister(bilkentId){
+    return new Promise((resolve, reject) => {
+        var sql = "DELETE from register where bilkentId = ?";
+        mysqlConnection.query(sql, [bilkentId], (err, rows, fields) => {
+            if (!err){
+                resolve(10);
+            }
+            else{
+                 reject(-1);                   
+            }
+        });
+    });
+
+}
+
+
 //Get all accounts
 router.get('/', (req, res) => {
     mysqlConnection.query('SELECT * FROM account', (err, rows, fields) => {
@@ -35,15 +52,23 @@ function findStatus(email){
 //Insert an account (when admin approves an unregistered account)
 router.post('/', (req, res) => {
     var status = findStatus(req.body.email); 
-    var sql = "SET @name = ?; SET @surname = ?; SET @bilkentId = ?; SET @email = ?; SET @password = ?; SET @status = ?; CALL insertAccountProcedure(@name, @surname, @bilkentId, @email, @password, @status);";
-    mysqlConnection.query(sql, [req.body.name, req.body.surname, req.body.bilkentId, req.body.email, req.body.password, status], (err, rows, fields) => {
-        if (!err)
-            res.send('Inserted account id: ' + req.body.bilkentId);
-        else
-            res.send(err.sqlMessage);
-        
-        console.log(err);
+    var regDelete = deleteRegister(req.body.bilkentId);
+
+    regDelete.then((value) => {
+        var sql = "SET @name = ?; SET @surname = ?; SET @bilkentId = ?; SET @email = ?; SET @password = ?; SET @status = ?; CALL insertAccountProcedure(@name, @surname, @bilkentId, @email, @password, @status);";
+        mysqlConnection.query(sql, [req.body.name, req.body.surname, req.body.bilkentId, req.body.email, req.body.password, status], (err, rows, fields) => {
+            if (!err)
+                res.send('Inserted account id: ' + req.body.bilkentId);
+            else
+                res.send(err.sqlMessage);
+            
+            console.log(err);
+        });
+    }).catch((value) => {
+        res.sendStatus(403);
     });
+
+    
 });
 
 
