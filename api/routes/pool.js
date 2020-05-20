@@ -26,8 +26,8 @@ router.get('/:lane', (req, res) => {
 });
 
 //Delete a pool lane
-router.delete('/:id', (req, res) => {
-    mysqlConnection.query('DELETE FROM pool WHERE id = ?', [req.params.id], (err, rows, fields) => {
+router.delete('/', (req, res) => {
+    mysqlConnection.query('DELETE FROM pool WHERE id = ?', [req.body.id], (err, rows, fields) => {
         if (!err)
             res.send('Deleted successfully');
         else

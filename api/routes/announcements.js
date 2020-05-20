@@ -96,9 +96,9 @@ router.get('/:id', (req, res) => {
 });
 
 //Delete an announcement
-router.delete('/:id', (req, res) => {
+router.delete('/', (req, res) => {
     console.log(req.params);
-    mysqlConnection.query('DELETE FROM announcements WHERE id = ?', [req.params.id], (err, rows, fields) => {
+    mysqlConnection.query('DELETE FROM announcements WHERE id = ?', [req.body.id], (err, rows, fields) => {
         if (!err)
             res.send('Deleted successfully');
         else

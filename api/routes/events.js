@@ -96,9 +96,9 @@ router.get('/:id', (req, res) => {
 });
 
 //Delete an event
-router.delete('/:id', (req, res) => {
+router.delete('/', (req, res) => {
     console.log(req.params);
-    mysqlConnection.query('DELETE FROM events WHERE id = ?', [req.params.id], (err, rows, fields) => {
+    mysqlConnection.query('DELETE FROM events WHERE id = ?', [req.body.id], (err, rows, fields) => {
         if (!err)
             res.send('Deleted successfully');
         else
@@ -153,14 +153,46 @@ router.post('/', (req, res) => {
 
 //Update an event
 router.put('/', (req, res) => {
-    let event = req.body;
-    let display = 0;
-    var sql = "UPDATE `bilsportdb`.`events` SET `text` = ?,`photoname` = ?, `startdate` = ?, `enddate` = ?, `display` = ? WHERE `Title` = ?; ";
-    mysqlConnection.query(sql, [event.text, event.photoname, event.startdate, event.enddate, display, event.title], (err, rows, fields) => {
+    let event = {
+        title: req.body.title,
+        text: req.body.text,
+        photoname: req.body.photoname,
+        startdate: req.body.startdate,
+        enddate: req.body.enddate,
+    };
+    console.log(event);
+    var base64 ;
+    var sql = "SELECT * from file where name = ?";
+    mysqlConnection.query(sql, [event.photoname], (err, rows, fields) => {
         if (!err)
-            res.send('Updated successfully');
-        else
-            console.log(err);
+            imageToBase64("C:/Users/Berkay Kara/Desktop/Backend/" + rows[0].path) // you can also to use url
+            .then(
+                (response) => {
+                    console.log("C:/Users/Berkay Kara/Desktop/Backend/" + rows[0].path);
+                    base64 = response; //cGF0aC90by9maWxlLmpwZw==
+                    let display = 0;
+                    //console.log(base64);
+                    base64 = base64.replace(new RegExp(' ', 'g'), '+');
+
+    var sql = "UPDATE `bilsportdb`.`events` SET `title` = ?,`text` = ?,`photoname` = ?,`startdate` = ?,`enddate` = ?,`display` = ?,`base64` = ?WHERE `id` = ?;";
+    mysqlConnection.query(sql, [event.title, event.text, event.photoname, event.startdate, event.enddate, display, bas ], (err, rows, fields) => {
+            if (!err){
+                res.send('Updated successfully');
+                res.sendStatus(200);
+            }                        
+            else{
+                console.log(" not ok");
+            }
+        });
+    }
+    )
+    .catch(
+    (error) => {
+        console.log(error); //Exepection error....
+    }
+    )
+    else
+    console.log(err);
     });
 });
 

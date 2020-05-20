@@ -28,8 +28,8 @@ router.get('/:field', (req, res) => {
 
 
 //Delete a football field
-router.delete('/:id', (req, res) => {
-    mysqlConnection.query('DELETE FROM football WHERE id = ?', [req.params.id], (err, rows, fields) => {
+router.delete('/', (req, res) => {
+    mysqlConnection.query('DELETE FROM football WHERE id = ?', [req.body.id], (err, rows, fields) => {
         if (!err)
             res.send('Deleted successfully');
         else

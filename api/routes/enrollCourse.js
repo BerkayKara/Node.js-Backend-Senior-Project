@@ -120,7 +120,7 @@ router.post('/', (req, res) => {
         var sql = "INSERT INTO `bilsportdb`.`payments`(`bilkentId`,`paymentId`,`courseId`) VALUES(?,?,?);";
         mysqlConnection.query(sql, [participant.bilkentId, participant.paymentId, participant.courseId], (err, rows, fields) => {
             if (!err){
-                res.send("Your Payment is Successful")
+                res.send("Please Pay for this course");
             }
             else{
                 console.log(err);

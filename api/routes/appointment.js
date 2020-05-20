@@ -36,7 +36,7 @@ router.delete('/', (req, res) => {
 
 router.post('/', (req, res) => {
     var sql = "INSERT INTO `bilsportdb`.`appointment`(`name`,`place`,`time`,`available`)VALUES(?,?,?,?);";
-    mysqlConnection.query(sql, [req.body.name, req.body.place, req.body.time, req.body.available], (err, rows, fields) => {
+    mysqlConnection.query(sql, [req.body.name, req.body.place, req.body.time, 1], (err, rows, fields) => {
         if (!err)
             res.send('Appointment Inserted');
         else
